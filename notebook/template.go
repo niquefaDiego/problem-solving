@@ -18,7 +18,7 @@ func main() {
 	defer out.Flush()
 
 	var ntc int
-	fmt.Fscan(in, &ntc)
+	scan(&ntc)
 	for t := 0; t < ntc; t++ {
 
 	}
