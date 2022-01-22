@@ -35,6 +35,25 @@ func TestExtendedGcd(a, b int) (ok bool) {
 	return
 }
 
+const MOD = int(1e9 + 7)
+
+func Add(a, b int) int {
+	return (a + b) % MOD
+}
+
+func Mul(a, b int) int {
+	return int((int64(a) * int64(b)) % int64(MOD))
+}
+
+func Neg(a int) int {
+	return (MOD - a) % MOD
+}
+
+func Inv(a int) int {
+	_, x, _ := ExtendedGcd(a, MOD)
+	return ((x % MOD) + MOD) % MOD
+}
+
 func main2() {
 	sum := 0
 	for i := 0; i < 10; i++ {
