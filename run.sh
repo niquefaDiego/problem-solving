@@ -69,7 +69,7 @@ if [ -z "$Problem" ]; then
   exit 1
 fi
 
-if [ -z "$Problem" ]; then
+if [ -z "$CaseId" ]; then
   CaseId="0"
 fi
 
