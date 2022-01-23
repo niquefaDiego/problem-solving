@@ -1,53 +1,94 @@
 #!/usr/local/bin/bash
 
 Problem=""
-CaseId="0"
+CaseId=""
 Debug="false"
 
-print_usage() {
-  printf "TODO: show manual"
+SetProblem () {
+  if [ -z "$Problem" ]; then
+    Problem=$1
+  else
+    echo "ERROR: Problem given multiple times, but it must be given exactly once."
+    exit 1
+  fi
+}
+
+SetCaseId () {
+  if [ -z "$CaseId" ]; then
+    CaseId=$1
+  else
+    echo "ERROR: Case given multiple times, but it must be given exactly once."
+    exit 1
+  fi
 }
 
 while test $# -gt 0; do
   case "$1" in
     # Debug flag
-    -d)
-      ;&
+    -d) ;&
     -debug)
       shift
       Debug="true"
       ;;
 
     # Test case ID
-    -c)
-      ;&
+    -c) ;&
     -case)
       shift
-      CaseId=$1
+      SetCaseId $1
       shift
       ;;
     
     # Problem
-    -p)
-      ;&
-    -prob)
+    -p) ;&
+    -prob) ;&
+    -problem)
       shift
-      Problem=$1
+      SetProblem $1
       shift
       ;;
 
-    # Unknown flag
+    # Some other parameter
     *)
-      print_usage
-      exit 1;
+      if [ -z "$Problem" ]; then
+        SetProblem $1
+        shift
+      elif [ -z "$CaseId" ]; then
+        SetCaseId $1
+        shift
+      else
+        echo "ERROR: Could not parse parameter: $1"
+        exit 1;
+      fi
       ;;
   esac
 done  
+
+if [ -z "$Problem" ]; then
+  cat docs/run-problem-required.txt
+  exit 1
+fi
+
+if [ -z "$Problem" ]; then
+  CaseId="0"
+fi
+
+echo "Running problem $Problem with case $CaseId. Debug=$Debug..."
 
 GO_FILE=workspace/$Problem/main.go
 INPUT_FILE=workspace/$Problem/$CaseId.in
 OUTPUT_FILE=workspace/$Problem/$CaseId.txt
 EXPECTED_FILE=workspace/$Problem/$CaseId.out
+
+if ! test -f $GO_FILE; then
+  echo "Go file not found: ${GO_FILE}"
+  exit 0
+fi
+
+if ! test -f $INPUT_FILE; then
+  echo "Input file not found: ${INPUT_FILE}"
+  exit 0
+fi
 
 if $Debug -eq "true"; then
   go run $GO_FILE <$INPUT_FILE

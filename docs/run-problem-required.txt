@@ -1,0 +1,4 @@
+
+ERROR: Problem is required, specify it using the argument -p, -prob or -problem. For example:
+
+./run.sh -problem A -case 0
