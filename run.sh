@@ -75,13 +75,13 @@ fi
 
 echo "Running problem $Problem with case $CaseId. Debug=$Debug..."
 
-GO_FILE=workspace/$Problem/main.go
+SOLUTION_FILE=workspace/$Problem/main.go
 INPUT_FILE=workspace/$Problem/$CaseId.in
 OUTPUT_FILE=workspace/$Problem/$CaseId.txt
 EXPECTED_FILE=workspace/$Problem/$CaseId.out
 
-if ! test -f $GO_FILE; then
-  echo "Go file not found: ${GO_FILE}"
+if ! test -f $SOLUTION_FILE; then
+  echo "Solution file not found: ${SOLUTION_FILE}"
   exit 0
 fi
 
@@ -91,9 +91,9 @@ if ! test -f $INPUT_FILE; then
 fi
 
 if $Debug -eq "true"; then
-  go run $GO_FILE <$INPUT_FILE
+  go run $SOLUTION_FILE <$INPUT_FILE
 else
-  go run $GO_FILE <$INPUT_FILE> $OUTPUT_FILE
+  go run $SOLUTION_FILE <$INPUT_FILE> $OUTPUT_FILE
 
   if test -f $EXPECTED_FILE; then
     if cmp --silent -- "$OUTPUT_FILE" "$EXPECTED_FILE"; then
