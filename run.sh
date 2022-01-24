@@ -35,7 +35,7 @@ while test $# -gt 0; do
     -c) ;&
     -case)
       shift
-      SetCaseId $1
+      SetCaseId "$1"
       shift
       ;;
     
@@ -44,17 +44,17 @@ while test $# -gt 0; do
     -prob) ;&
     -problem)
       shift
-      SetProblem $1
+      SetProblem "$1"
       shift
       ;;
 
     # Some other parameter
     *)
       if [ -z "$Problem" ]; then
-        SetProblem $1
+        SetProblem "$1"
         shift
       elif [ -z "$CaseId" ]; then
-        SetCaseId $1
+        SetCaseId "$1"
         shift
       else
         echo "ERROR: Could not parse parameter: $1"
@@ -80,22 +80,22 @@ INPUT_FILE=workspace/$Problem/$CaseId.in
 OUTPUT_FILE=workspace/$Problem/$CaseId.txt
 EXPECTED_FILE=workspace/$Problem/$CaseId.out
 
-if ! test -f $SOLUTION_FILE; then
+if ! test -f "$SOLUTION_FILE"; then
   echo "Solution file not found: ${SOLUTION_FILE}"
   exit 0
 fi
 
-if ! test -f $INPUT_FILE; then
+if ! test -f "$INPUT_FILE"; then
   echo "Input file not found: ${INPUT_FILE}"
   exit 0
 fi
 
-if $Debug -eq "true"; then
-  go run $SOLUTION_FILE <$INPUT_FILE
+if "$Debug" -eq "true"; then
+  go run "$SOLUTION_FILE" <"$INPUT_FILE"
 else
-  go run $SOLUTION_FILE <$INPUT_FILE> $OUTPUT_FILE
+  go run "$SOLUTION_FILE" <"$INPUT_FILE"> "$OUTPUT_FILE"
 
-  if test -f $EXPECTED_FILE; then
+  if test -f "$EXPECTED_FILE"; then
     if cmp --silent -- "$OUTPUT_FILE" "$EXPECTED_FILE"; then
       echo "Case $CaseId: Correct! :D"
     else
@@ -104,6 +104,6 @@ else
   fi
 
   echo "----- OUTPUT START -----"
-  cat workspace/$Problem/$CaseId.txt
+  cat "workspace/$Problem/$CaseId.txt"
   echo "------ OUTPUT END ------"
 fi
