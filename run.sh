@@ -1,4 +1,4 @@
-#!/usr/local/bin/bash
+#!/bin/bash
 
 Problem=""
 CaseId=""
@@ -25,24 +25,20 @@ SetCaseId () {
 while test $# -gt 0; do
   case "$1" in
     # Debug flag
-    -d) ;&
-    -debug)
+    -d|-debug)
       shift
       Debug="true"
       ;;
 
     # Test case ID
-    -c) ;&
-    -case)
+    -c|-case)
       shift
       SetCaseId "$1"
       shift
       ;;
     
     # Problem
-    -p) ;&
-    -prob) ;&
-    -problem)
+    -p|-prob|-problem)
       shift
       SetProblem "$1"
       shift
