@@ -3,6 +3,7 @@
 Problem=""
 CaseId=""
 Debug="false"
+RunAllTests="false"
 
 SetProblem () {
   if [ -z "$Problem" ]; then
@@ -24,18 +25,6 @@ SetCaseId () {
 
 while test $# -gt 0; do
   case "$1" in
-    # Debug flag
-    -d|-debug)
-      shift
-      Debug="true"
-      ;;
-
-    # Test case ID
-    -c|-case)
-      shift
-      SetCaseId "$1"
-      shift
-      ;;
     
     # Problem
     -p|-prob|-problem)
@@ -44,6 +33,24 @@ while test $# -gt 0; do
       shift
       ;;
 
+    # Test case ID
+    -c|-case)
+      shift
+      SetCaseId "$1"
+      shift
+      ;;
+
+    # Debug flag
+    -d|-debug)
+      shift
+      Debug="true"
+      ;;
+
+    # Run all cases
+    -a|-all)
+      shift
+      RunAllTests="true"
+      ;;
     # Some other parameter
     *)
       if [ -z "$Problem" ]; then
@@ -69,26 +76,23 @@ if [ -z "$CaseId" ]; then
   CaseId="0"
 fi
 
-echo "Running problem $Problem with case $CaseId. Debug=$Debug..."
-
 SOLUTION_FILE=workspace/$Problem/main.go
-INPUT_FILE=workspace/$Problem/$CaseId.in
-OUTPUT_FILE=workspace/$Problem/$CaseId.txt
-EXPECTED_FILE=workspace/$Problem/$CaseId.out
-
 if ! test -f "$SOLUTION_FILE"; then
   echo "Solution file not found: ${SOLUTION_FILE}"
   exit 0
 fi
 
-if ! test -f "$INPUT_FILE"; then
-  echo "Input file not found: ${INPUT_FILE}"
-  exit 0
-fi
+RunTestCase() {
+  INPUT_FILE=workspace/$Problem/$CaseId.in
+  OUTPUT_FILE=workspace/$Problem/$CaseId.txt
+  EXPECTED_FILE=workspace/$Problem/$CaseId.out
 
-if "$Debug" -eq "true"; then
-  go run "$SOLUTION_FILE" <"$INPUT_FILE"
-else
+  if ! test -f "$INPUT_FILE"; then
+    echo "Input file not found: ${INPUT_FILE}"
+    exit 1
+  fi
+
+  # TODO: check if exit status code is not 0 and show error
   go run "$SOLUTION_FILE" <"$INPUT_FILE"> "$OUTPUT_FILE"
 
   if test -f "$EXPECTED_FILE"; then
@@ -98,8 +102,23 @@ else
       echo "Case $CaseId: Wrong :("
     fi
   fi
+}
 
+if [ "$Debug" = "true" ]; then
+  INPUT_FILE=workspace/$Problem/$CaseId.in
+  go run "$SOLUTION_FILE" <"$INPUT_FILE"
+elif [ "$RunAllTests" = "false" ]; then
+  echo "Testing problem $Problem against test case $CaseId."
+  RunTestCase
   echo "----- OUTPUT START -----"
   cat "workspace/$Problem/$CaseId.txt"
   echo "------ OUTPUT END ------"
+else
+  echo "Testing problem $Problem against all test cases."
+  CaseId=0
+  while test -f "workspace/$Problem/$CaseId.in";
+  do
+      RunTestCase
+      CaseId=$((CaseId+1))
+  done
 fi

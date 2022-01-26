@@ -16,3 +16,7 @@ Run your solution for problem A with case 0 (workspace/A/0.in):
 
 Make sure all scripts pass shellcheck:
 https://www.shellcheck.net/
+
+Documentation for shell:
+https://pubs.opengroup.org/onlinepubs/9699919799/utilities/V3_chap02.html
+https://github.com/dylanaraps/pure-sh-bible
