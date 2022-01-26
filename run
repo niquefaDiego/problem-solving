@@ -101,12 +101,14 @@ RunTestCase() {
     else
       echo "Case $CaseId: Wrong :("
     fi
+  else
+    echo "Case $CaseId: No answer file"
   fi
 }
 
 if [ "$Debug" = "true" ]; then
   INPUT_FILE=workspace/$Problem/$CaseId.in
-  go run "$SOLUTION_FILE" <"$INPUT_FILE"
+  time go run "$SOLUTION_FILE" <"$INPUT_FILE"
 elif [ "$RunAllTests" = "false" ]; then
   echo "Testing problem $Problem against test case $CaseId."
   RunTestCase
