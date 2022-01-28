@@ -4,12 +4,20 @@ Tools for efficient competitive programming in golang.
 
 Create a solution for problem A (folder workspace/A):
 ```
-./create.sh A
+./create A
 ```
+
+This will set the `Problem` variable to to `"A"` in `./config`.
 
 Run your solution for problem A with case 0 (workspace/A/0.in):
 ```
-./run A 0
+./run 0
+```
+Note that you do not need to specify the problem since the `Problem` variable is already set in `./config` from the previus `./create A` call.
+
+To add a new test case for problem A run:
+```
+./add_case
 ```
 
 ## Contributing
