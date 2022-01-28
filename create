@@ -1,15 +1,22 @@
-if [ -d "workspace/$1" ]
+#!/bin/sh
+
+Problem="$1"
+ConfigFile=config
+
+if [ -d "workspace/$Problem" ]
 then
-	echo "ERROR: directory workspace/$1 already exists"
-	exit 9999
+	echo "ERROR: Directory workspace/$Problem already exists"
+	exit 1
 fi
 
-mkdir workspace/$1
-cp notebook/template.go workspace/$1/main.go
-touch workspace/$1/0.in
-touch workspace/$1/0.out
+mkdir "workspace/$Problem"
+cp "notebook/template.go" "workspace/$Problem/main.go"
+touch "workspace/$Problem/0.in"
+touch "workspace/$Problem/0.out"
 
-code workspace/$1/main.go
-code workspace/$1/0.in
-code workspace/$1/0.out
+code "workspace/$Problem/main.go"
+code "workspace/$Problem/0.in"
+code "workspace/$Problem/0.out"
 
+echo "Problem=$Problem" > "$ConfigFile"
+echo "CaseId=0" >> "$ConfigFile"

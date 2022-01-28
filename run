@@ -1,26 +1,38 @@
 #!/bin/sh
 
+ConfigFile=config
 Problem=""
 CaseId=""
 Debug="false"
 RunAllTests="false"
 
+# Read default values for Problem and CaseId from settings file
+if test -f "$ConfigFile"; then
+  while read -r Line; do
+    eval "$Line"
+  done < "$ConfigFile"
+fi
+
+ProblemGiven="false"
 SetProblem () {
-  if [ -z "$Problem" ]; then
-    Problem=$1
-  else
-    echo "ERROR: Problem given multiple times, but it must be given exactly once."
+  if [ "$ProblemGiven" = "true" ]; then
+    echo "ERROR: Problem given multiple times, but it must be given at most once."
     exit 1
+  else
+    Problem=$1
   fi
+  ProblemGiven="true"
 }
 
+CaseIdGiven="false"
 SetCaseId () {
-  if [ -z "$CaseId" ]; then
-    CaseId=$1
-  else
-    echo "ERROR: Case given multiple times, but it must be given exactly once."
+  if [ "$CaseIdGiven" = "true" ]; then
+    echo "ERROR: Problem given multiple times, but it must be given at most once."
     exit 1
+  else
+    CaseId=$1
   fi
+  CaseIdGiven="true"
 }
 
 while test $# -gt 0; do
@@ -53,10 +65,7 @@ while test $# -gt 0; do
       ;;
     # Some other parameter
     *)
-      if [ -z "$Problem" ]; then
-        SetProblem "$1"
-        shift
-      elif [ -z "$CaseId" ]; then
+      if [ "$CaseIdGiven" = "false" ]; then
         SetCaseId "$1"
         shift
       else
@@ -75,6 +84,9 @@ fi
 if [ -z "$CaseId" ]; then
   CaseId="0"
 fi
+
+echo "Problem=$Problem" > "$ConfigFile"
+echo "CaseId=$CaseId" >> "$ConfigFile"
 
 SOLUTION_FILE=workspace/$Problem/main.go
 if ! test -f "$SOLUTION_FILE"; then
