@@ -7,7 +7,9 @@ Debug="false"
 RunAllTests="false"
 
 # Read default values for Problem and CaseId from settings file
-eval "$(cat $ConfigFile)"
+if test -f "$ConfigFile"; then
+  eval "$(cat $ConfigFile)"
+fi
 
 ProblemGiven="false"
 SetProblem () {
@@ -91,9 +93,9 @@ if ! test -f "$SOLUTION_FILE"; then
 fi
 
 RunTestCase() {
-  INPUT_FILE=workspace/$Problem/$CaseId.in
-  OUTPUT_FILE=workspace/$Problem/$CaseId.txt
-  EXPECTED_FILE=workspace/$Problem/$CaseId.out
+  INPUT_FILE=workspace/$Problem/cases/$CaseId.in
+  OUTPUT_FILE=workspace/$Problem/cases/$CaseId.txt
+  EXPECTED_FILE=workspace/$Problem/cases/$CaseId.out
 
   if ! test -f "$INPUT_FILE"; then
     echo "Input file not found: ${INPUT_FILE}"
@@ -115,20 +117,20 @@ RunTestCase() {
 }
 
 if [ "$Debug" = "true" ]; then
-  INPUT_FILE=workspace/$Problem/$CaseId.in
+  INPUT_FILE=workspace/$Problem/cases/$CaseId.in
   time go run "$SOLUTION_FILE" <"$INPUT_FILE"
 elif [ "$RunAllTests" = "false" ]; then
   echo "Testing problem $Problem against test case $CaseId."
   RunTestCase
   echo "----- OUTPUT START -----"
-  cat "workspace/$Problem/$CaseId.txt"
+  cat "workspace/$Problem/cases/$CaseId.txt"
   echo "------ OUTPUT END ------"
 else
   echo "Testing problem $Problem against all test cases."
   CaseId=0
-  while test -f "workspace/$Problem/$CaseId.in";
+  while test -f "workspace/$Problem/cases/$CaseId.in";
   do
-      RunTestCase
-      CaseId=$((CaseId+1))
+    RunTestCase
+    CaseId=$((CaseId+1))
   done
 fi

@@ -10,13 +10,15 @@ then
 fi
 
 mkdir "workspace/$Problem"
+mkdir "workspace/$Problem/cases"
+
 cp "notebook/template.go" "workspace/$Problem/main.go"
-touch "workspace/$Problem/0.in"
-touch "workspace/$Problem/0.out"
+touch "workspace/$Problem/cases/0.in"
+touch "workspace/$Problem/cases/0.out"
 
 code "workspace/$Problem/main.go"
-code "workspace/$Problem/0.in"
-code "workspace/$Problem/0.out"
+code "workspace/$Problem/cases/0.in"
+code "workspace/$Problem/cases/0.out"
 
 echo "Problem=$Problem" > "$ConfigFile"
 echo "CaseId=0" >> "$ConfigFile"
