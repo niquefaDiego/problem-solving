@@ -7,11 +7,7 @@ Debug="false"
 RunAllTests="false"
 
 # Read default values for Problem and CaseId from settings file
-if test -f "$ConfigFile"; then
-  while read -r Line; do
-    eval "$Line"
-  done < "$ConfigFile"
-fi
+eval "$(cat $ConfigFile)"
 
 ProblemGiven="false"
 SetProblem () {
