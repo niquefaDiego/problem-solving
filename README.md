@@ -9,10 +9,10 @@ Create a solution for problem A (folder `./workspace/A`):
 ./create A
 ```
 
-This sets the `${Problem}` variable to to `"A"` in `./config`, this means the `run` and `add_case` commands to work in the `workspace/A` directory. Also, it creates and opens in VSCode the files:
-- `workspace/A/main.go`: For your solution file.
-- `workspace/A/cases/0.in`: Input file for case `0`.
-- `workspace/A/cases/0.out`: Expected output for case `0`.
+This sets the `${Problem}` variable to to `"A"` in `./config`, this means the `./run` and `./add_case` commands to work in the `./workspace/A` directory. Also, it creates and opens in VSCode the files:
+- `./workspace/A/main.go`: For your solution file.
+- `./workspace/A/cases/0.in`: Input file for case `0`.
+- `./workspace/A/cases/0.out`: Expected output for case `0`.
 
 Save the following in `0.in`:
 ```
@@ -24,7 +24,7 @@ And save the following in `0.out` (add a single newline after the number):
 22
 ```
 
-Replace the contents of `workspace/A/main.go` with:
+Replace the contents of `./workspace/A/main.go` with:
 ```
 package main
 
