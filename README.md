@@ -2,6 +2,11 @@
 
 Tools for efficient competitive programming in golang using Visual Studio Code.
 
+
+# Dependencies
+
+- go: https://go.dev/
+
 # Quickstart
 
 Create a solution for problem A (folder `./workspace/A`):
