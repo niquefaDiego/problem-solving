@@ -63,6 +63,7 @@ TODO: Implement the help flags in every script :P
 |  |  |  |- ${CaseId}.txt
 ```
 
+File/folder description:
 - `./add_case`: See previus section.
 - `./config`: File containing the current values for `Problem` and `CaseId`.
 - `./create`: See previus section.
