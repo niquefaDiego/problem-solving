@@ -37,27 +37,27 @@ while test $# -gt 0; do
   case "$1" in
     
     # Problem
-    -p|-prob|-problem)
+    -p|--prob|--problem)
       shift
       SetProblem "$1"
       shift
       ;;
 
     # Test case ID
-    -c|-case)
+    -c|--case)
       shift
       SetCaseId "$1"
       shift
       ;;
 
     # Debug flag
-    -d|-debug)
+    -d|--debug)
       shift
       Debug="true"
       ;;
 
     # Run all cases
-    -a|-all)
+    -a|--all)
       shift
       RunAllTests="true"
       ;;

@@ -1,6 +1,8 @@
 # What is this?
 
-Tools for efficient competitive programming in golang.
+Tools for efficient competitive programming in golang using Visual Studio Code.
+
+# Quickstart
 
 Create a solution for problem A (folder workspace/A):
 ```
@@ -19,6 +21,26 @@ To add a new test case for problem A run:
 ```
 ./add_case
 ```
+
+## Folder structure
+
+TODO.
+
+## Scripts
+
+You can see the manual for each of the 3 scripts by running them with the `-h` or `--help` flag:
+
+```
+./create -h
+./run -h
+./add_case -h
+
+./create --help
+./run --help
+./add_case --help
+```
+
+TODO: Implement the help flags
 
 ## Contributing
 
