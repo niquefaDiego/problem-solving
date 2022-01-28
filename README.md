@@ -9,17 +9,49 @@ Create a solution for problem A (folder `./workspace/A`):
 ./create A
 ```
 
-This will set the `${Problem}` variable to to `"A"` in `./config`.
+This sets the `${Problem}` variable to to `"A"` in `./config`, this means the `run` and `add_case` commands to work in the `workspace/A` directory. Also, it creates and opens in VSCode the files:
+- `workspace/A/main.go`: For your solution file.
+- `workspace/A/cases/0.in`: Input file for case `0`.
+- `workspace/A/cases/0.out`: Expected output for case `0`.
 
-Run your solution for problem A with case 0 (workspace/A/0.in):
+Save the following in `0.in`:
+```
+10 12
+```
+
+And save the following in `0.out` (add a single newline after the number):
+```
+22
+```
+
+Replace the contents of `workspace/A/main.go` with:
+```
+package main
+
+import "fmt"
+
+func main() {
+	var a, b int
+	fmt.Scan(&a, &b)
+	fmt.Printf("%d\n", a+b)
+}
+```
+
+Now run your solution for problem `A` with case `0`:
 ```
 ./run 0
 ```
-Note that you do not need to specify the problem since the `${Problem}` variable is already set in `./config` from the previus `./create A` call.
+
+You do not need to specify the problem since the `${Problem}` variable is already set in `./config` from the previus `./create A` call.
 
 To add a new test case for problem A run:
 ```
 ./add_case
+```
+
+This will create and open in VSCode the files `workspace/A/cases/1.in` and `workspace/A/cases/1.out`. You can add a case with input `1 2` and output `3` and test your solution against it with:
+```
+./run 1
 ```
 
 ## Scripts
