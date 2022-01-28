@@ -2,6 +2,11 @@
 
 ConfigFile=config
 
+if [ "$1" = "-h" -o "$1" = "--help" ]; then
+  cat "docs/add-case-manual.txt"
+  exit 0
+fi
+
 if ! test -f "$ConfigFile"; then
   echo "Error: ./config file not found"
   exit 1

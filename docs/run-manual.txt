@@ -1,0 +1,14 @@
+
+Usage: run [Options] [CaseId]
+
+Runs the solution for problem ${Problem} against one or several test cases.
+
+Options:
+  -d, --debug              flag to run case in debug mode
+  -a, --all                test solution against all test cases
+  -c, --case arg           set the ${CaseId} variable in ./config file
+  -p, --problem arg        set the ${Problem} variable in ./config file
+  --help                   show this manual, then exit
+
+Variables saved in ./config will be used as default values when not specified
+in subsequen calls to run.

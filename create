@@ -1,5 +1,10 @@
 #!/bin/sh
 
+if [ "$1" = "-h" -o "$1" = "--help" ]; then
+  cat "docs/create-manual.txt"
+  exit 0
+fi
+
 Problem="$1"
 ConfigFile=config
 

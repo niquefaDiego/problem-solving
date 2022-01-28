@@ -5,7 +5,9 @@ Tools for efficient competitive programming in golang using Visual Studio Code.
 
 # Dependencies
 
-- go: https://go.dev/
+- Golang: https://go.dev/
+- Visual Studio Code: https://code.visualstudio.com/
+- POSIX Shell: `/bin/sh --version`
 
 # Quickstart
 
@@ -73,9 +75,6 @@ You can see the manual for each of the 3 scripts by running them with the `-h` o
 ./add_case --help
 ```
 
-TODO: Implement the help flags in every script :P
-
-
 ## Folder structure
 
 ```
@@ -105,7 +104,7 @@ File/folder description:
 - `./config`: File containing the current values for `Problem` and `CaseId`.
 - `./create`: See previus section.
 - `./run`: See previus section.
-- `./docs/`: Contains text files with documentation that gets shown by some scripts when certain errors happens.
+- `./docs/`: Contains text files with documentation that gets shown by scripts.
 - `./notebook/`: Folder with tested implementations of algorithms, data structures or utilities to be copy pasted when needed.
 - `./notebook/template.go`: Default code for `./workspace/${Problem}/main.go` when `./create ${Problem}` is called.
 - `./workspace/${Problem}/`: Folder with the source code and test cases for problem `${Problem}`, it is created by `./create ${Problem}`

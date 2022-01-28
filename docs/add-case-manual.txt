@@ -1,0 +1,13 @@
+
+Usage: add_case [Options]
+
+Adds input and output files for a new test case for problem ${Problem}, the
+${CaseId} will be set to the minimum non-negative integer not used in other
+test case.
+
+The ${Problem} variable is required to be set in the ./config file.
+
+The input and output files will be automatically opened in VSCode.
+
+Options:
+  --help                   show this manual, then exit

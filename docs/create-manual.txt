@@ -1,0 +1,18 @@
+
+Usage: add_case [Options] Problem
+
+Create solution folder for problem ${Problem}:
+
+|- workspace/
+|  |- ${Problem}/
+|  |  |- main.go
+|  |  |- cases/
+|  |  |  |- 0.in
+|  |  |  |- 0.out
+
+main.go, 0.in and 0.out will be automatically opened in VSCode.
+
+The ${Problem} variable will be saved in the ./config file.
+
+Options:
+  --help                   show this manual, then exit

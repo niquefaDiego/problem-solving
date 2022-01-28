@@ -37,7 +37,7 @@ while test $# -gt 0; do
   case "$1" in
     
     # Problem
-    -p|--prob|--problem)
+    -p|--problem)
       shift
       SetProblem "$1"
       shift
@@ -61,6 +61,13 @@ while test $# -gt 0; do
       shift
       RunAllTests="true"
       ;;
+
+    # Show manual
+    -h|--help)
+      cat docs/run-manual.txt
+      exit 0
+      ;;
+
     # Some other parameter
     *)
       if [ "$CaseIdGiven" = "false" ]; then
