@@ -65,7 +65,7 @@ This will create and open in VSCode the files `workspace/A/cases/1.in` and `work
 
 The following scripts are available in the root folder: `./open`, `./create`, `./add_case` and `./run`.
 
-You can see the manual for every scripts by running them with the `-h` or `--help` flag, for example: `./create -h`.
+You can see the manual for any script by running them with the `-h` or `--help` flag, for example: `./create -h`.
 
 ## Folder structure
 
@@ -108,11 +108,6 @@ File/folder description:
 - `./workspace/${Problem}/cases/${CaseId}.out`: Answer file for case `${CaseId}` of problem `${Problem}`. This is the expected output.
 - `./workspace/${Problem}/cases/${CaseId}.txt`: Solution's output for case `${CaseId}` of problem `${Problem}`. This is your solution's output.
 
-## Contributing
+## Contribute
 
-Make sure all scripts pass shellcheck:
-https://www.shellcheck.net/
-
-Documentation for shell:
-https://pubs.opengroup.org/onlinepubs/9699919799/utilities/V3_chap02.html
-https://github.com/dylanaraps/pure-sh-bible
+See [contributing guidelines](contributing.md).
