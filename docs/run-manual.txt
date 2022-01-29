@@ -1,7 +1,7 @@
 
 Usage: run [Options] [CaseId]
 
-Runs the solution for problem ${Problem} against one or several test cases.
+Run the solution for problem ${Problem} against one or several test cases.
 
 Options:
   -d, --debug              flag to run case in debug mode
