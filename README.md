@@ -94,9 +94,9 @@ You can see the manual for every scripts by running them with the `-h` or `--hel
 
 File/folder description:
 - `./add_case`: [Add case script manual](/docs/add-case-manual.txt).
-- `./config`: File containing the current values for `Problem` and `CaseId`.
+- `./config`: File containing the current values for `${Problem}` and `${CaseId}`.
 - `./create`: [Create script manual](/docs/create-manual.txt).
-- `./run`: [Run script manual](/docs/create-manual.txt).
+- `./run`: [Run script manual](/docs/run-manual.txt).
 - `./open`: [Open script manual](/docs/open-manual.txt).
 - `./docs/`: Contains text files with documentation that gets shown by scripts.
 - `./notebook/`: Folder with tested implementations of algorithms, data structures or utilities to be copy pasted when needed.
