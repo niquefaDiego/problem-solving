@@ -1,7 +1,7 @@
 {
-  "Max": {
-    "scope": "go",
-    "prefix": "Max",
+  "Go: Max": {
+    "scope": "go", "prefix": "Max",
+    "description": "Returns maximum of 2 values",
     "body": [
       "func max(a, b ${1:int}) ${1:int} {",
       "  if a > b {",
@@ -10,11 +10,10 @@
       "  return b",
       "}", "$0"
     ],
-    "description": "Returns maximum of 2 values",
   },
-  "Min": {
-    "scope": "go",
-    "prefix": "Min",
+  "Go: Min": {
+    "scope": "go", "prefix": "Min",
+    "description": "Returns minimum of 2 values",
     "body": [
       "func min(a, b ${1:int}) ${1:int} {",
       "  if a < b {",
@@ -23,6 +22,29 @@
       "  return b",
       "}", "$0"
     ],
-    "description": "Returns minimum of 2 values",
+  },
+  "Go: Gcd": {
+    "scope": "go", "prefix": "Gcd",
+    "description": "Returns Greatest Common Divisor of 2 values",
+    "body": [
+      "func gcd(x, y ${1:int}) (${1:int}) {",
+      "  if y == 0 {",
+      "    return x",
+      "  }",
+      "  return gcd(y, x%y)",
+      "}", "$0"
+    ],
+  },
+  "Go: Abs": {
+    "scope": "go", "prefix": "Abs",
+    "description": "Return absolute value of a numeric value",
+    "body": [
+      "func abs(x ${1:int}) (${1:int}) {",
+      "  if x < 0 {",
+      "    return -x",
+      "  }",
+      "  return x",
+      "}", "$0"
+    ],
   }
 }
