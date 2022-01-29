@@ -1,0 +1,28 @@
+{
+  "Max": {
+    "scope": "go",
+    "prefix": "Max",
+    "body": [
+      "func max(a, b ${1:int}) ${1:int} {",
+      "  if a > b {",
+      "    return a",
+      "  }",
+      "  return b",
+      "}", "$0"
+    ],
+    "description": "Returns maximum of 2 values",
+  },
+  "Min": {
+    "scope": "go",
+    "prefix": "Min",
+    "body": [
+      "func min(a, b ${1:int}) ${1:int} {",
+      "  if a < b {",
+      "    return a",
+      "  }",
+      "  return b",
+      "}", "$0"
+    ],
+    "description": "Returns minimum of 2 values",
+  }
+}

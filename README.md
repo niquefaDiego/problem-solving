@@ -75,6 +75,8 @@ You can see the manual for any script by running them with the `-h` or `--help` 
 |- create
 |- open
 |- run
+|- .vscode/
+|  |- snippets.code-snippets
 |- docs/
 |- notebook/
 |  |- template.go
@@ -100,13 +102,14 @@ File/folder description:
 - `./open`: [Open script manual](/docs/open-manual.txt).
 - `./docs/`: Contains text files with documentation that gets shown by scripts.
 - `./notebook/`: Folder with tested implementations of algorithms, data structures or utilities to be copy pasted when needed.
+- `./.vscode/snippets.code-snippets`: Handy (VSCode snippets)[https://code.visualstudio.com/docs/editor/userdefinedsnippets] for faster problem solving.
 - `./notebook/template.go`: Default code for `./workspace/${Problem}/main.go` when `./create ${Problem}` is called.
 - `./workspace/${Problem}/`: Folder with the source code and test cases for problem `${Problem}`, it is created by `./create ${Problem}`
 - `./workspace/${Problem}/main.go`: Solution file for problem `${Problem}`.
 - `./workspace/${Problem}/cases/`: Folder containing inputs, answers and the solution outputs for the problem `${Problem}`.
 - `./workspace/${Problem}/cases/${CaseId}.in`: Input file for case `${CaseId}` of problem `${Problem}`.
-- `./workspace/${Problem}/cases/${CaseId}.out`: Answer file for case `${CaseId}` of problem `${Problem}`. This is the expected output.
 - `./workspace/${Problem}/cases/${CaseId}.txt`: Solution's output for case `${CaseId}` of problem `${Problem}`. This is your solution's output.
+- `./workspace/${Problem}/cases/${CaseId}.out`: Answer file for case `${CaseId}` of problem `${Problem}`. This is the expected output.
 
 ## Contribute
 
