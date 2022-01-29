@@ -63,17 +63,9 @@ This will create and open in VSCode the files `workspace/A/cases/1.in` and `work
 
 ## Scripts
 
-You can see the manual for each of the 3 scripts by running them with the `-h` or `--help` flag:
+The following scripts are available in the root folder: `./open`, `./create`, `./add_case` and `./run`.
 
-```
-./create -h
-./run -h
-./add_case -h
-
-./create --help
-./run --help
-./add_case --help
-```
+You can see the manual for every scripts by running them with the `-h` or `--help` flag, for example: `./create -h`.
 
 ## Folder structure
 
@@ -81,6 +73,7 @@ You can see the manual for each of the 3 scripts by running them with the `-h` o
 |- add_case
 |- config
 |- create
+|- open
 |- run
 |- docs/
 |- notebook/
@@ -100,10 +93,11 @@ You can see the manual for each of the 3 scripts by running them with the `-h` o
 ```
 
 File/folder description:
-- `./add_case`: See previus section.
+- `./add_case`: [Add case script manual](/docs/add-case-manual.txt).
 - `./config`: File containing the current values for `Problem` and `CaseId`.
-- `./create`: See previus section.
-- `./run`: See previus section.
+- `./create`: [Create script manual](/docs/create-manual.txt).
+- `./run`: [Run script manual](/docs/create-manual.txt).
+- `./open`: [Open script manual](/docs/open-manual.txt).
 - `./docs/`: Contains text files with documentation that gets shown by scripts.
 - `./notebook/`: Folder with tested implementations of algorithms, data structures or utilities to be copy pasted when needed.
 - `./notebook/template.go`: Default code for `./workspace/${Problem}/main.go` when `./create ${Problem}` is called.

@@ -1,0 +1,8 @@
+
+Usage: open [Options] [CaseId]
+
+Opens with VSCode the input and expected output files for CaseId. If CaseId
+is not given, it will be take from the "./config" file.
+
+Options:
+  --help                   show this manual, then exit
