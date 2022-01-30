@@ -46,5 +46,14 @@
       "  return x",
       "}", "$0"
     ],
+  },
+  "Go: ReadArr": {
+    "scope": "go", "prefix": "ReadArr",
+    "description": "Reads an array",
+    "body": [
+      "for i := 0; i < ${1:n}; i++ {",
+      "  scan(&${2:a}[i])",
+      "}", "$0",
+    ]
   }
 }

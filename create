@@ -1,12 +1,55 @@
 #!/bin/sh
 
-if [ "$1" = "-h" -o "$1" = "--help" ]; then
-  cat "docs/create-manual.txt"
-  exit 0
-fi
-
-Problem="$1"
+Lang="go"
+Problem=""
 ConfigFile=config
+
+LanguageGiven="false"
+SetLanguage () {
+  if [ "$LanguageGiven" = "true" ]; then
+    echo "ERROR: Language given multiple times, but it must be given at most once."
+    exit 1
+  else
+    Lang="$1"
+  fi
+  LanguageGiven="true"
+}
+
+
+while [ $# -gt 0 ]; do
+  case "$1" in
+    -h|--help)
+      cat "docs/create-manual.txt"
+      exit 0
+      ;;
+
+    -l|--lang)
+      shift
+      SetLanguage "$1"
+      shift
+      ;;
+
+    *)
+      echo "Default"
+      if [ -z "$Problem" ]; then
+        Problem="$1"
+        shift
+      else
+        echo "ERROR: Could not parse parameter: $1"
+        exit 1
+      fi
+      ;;
+  esac
+done
+
+
+echo "Lang=$Lang"
+echo "Problem=$Problem"
+
+if ! echo "$Lang" | grep -Eq "^cpp|go$" ; then
+  echo "ERROR: Invalid language $Lang"
+  exit 1
+fi
 
 if [ -d "workspace/$Problem" ]
 then
@@ -17,7 +60,7 @@ fi
 mkdir "workspace/$Problem"
 mkdir "workspace/$Problem/cases"
 
-cp "notebook/template.go" "workspace/$Problem/main.go"
+cp "notebook/$Lang/template.go" "workspace/$Problem/main.go"
 touch "workspace/$Problem/cases/0.in"
 touch "workspace/$Problem/cases/0.out"
 
@@ -25,5 +68,6 @@ code "workspace/$Problem/main.go"
 code "workspace/$Problem/cases/0.in"
 code "workspace/$Problem/cases/0.out"
 
-echo "Problem=$Problem" > "$ConfigFile"
+echo "Lang=$Lang" > "$ConfigFile"
+echo "Problem=$Problem" >> "$ConfigFile"
 echo "CaseId=0" >> "$ConfigFile"

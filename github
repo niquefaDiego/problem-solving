@@ -1,4 +1,4 @@
 #!/bin/sh
 
 # Opens the github page of this project. Only works in macos as far as I know.
-open https://github.com/niquefaDiego/problem-solving-go
+open https://github.com/niquefaDiego/problem-solving

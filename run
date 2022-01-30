@@ -5,9 +5,10 @@ Problem=""
 CaseId=""
 Debug="false"
 RunAllTests="false"
+Lang="go"
 
 # Read default values for Problem and CaseId from settings file
-if test -f "$ConfigFile"; then
+if [ -f "$ConfigFile" ]; then
   eval "$(cat $ConfigFile)"
 fi
 
@@ -17,7 +18,7 @@ SetProblem () {
     echo "ERROR: Problem given multiple times, but it must be given at most once."
     exit 1
   else
-    Problem=$1
+    Problem="$1"
   fi
   ProblemGiven="true"
 }
@@ -28,12 +29,23 @@ SetCaseId () {
     echo "ERROR: Problem given multiple times, but it must be given at most once."
     exit 1
   else
-    CaseId=$1
+    CaseId="$1"
   fi
   CaseIdGiven="true"
 }
 
-while test $# -gt 0; do
+LanguageGiven="false"
+SetLanguage () {
+  if [ "$LanguageGiven" = "true" ]; then
+    echo "ERROR: Language given multiple times, but it must be given at most once."
+    exit 1
+  else
+    Lang="$1"
+  fi
+  LanguageGiven="true"
+}
+
+while [ $# -gt 0 ]; do
   case "$1" in
     
     # Problem
@@ -68,6 +80,12 @@ while test $# -gt 0; do
       exit 0
       ;;
 
+    -l|--lang)
+      shift
+      SetLanguage "$1"
+      shift
+      ;;
+
     # Some other parameter
     *)
       if [ "$CaseIdGiven" = "false" ]; then
@@ -90,8 +108,15 @@ if [ -z "$CaseId" ]; then
   CaseId="0"
 fi
 
-echo "Problem=$Problem" > "$ConfigFile"
-echo "CaseId=$CaseId" >> "$ConfigFile"
+if [[ "$Lang" =~ "^cpp|go$" ]]; then
+  echo "Valid language: $Lang"
+else
+  echo "Invalid language: $Lang"
+fi
+
+echo "Lang=$Lang" > "$ConfigFile"
+echo "Problem=$Problem" >> "$ConfigFile"
+echo "CaseId=0" >> "$ConfigFile"
 
 SOLUTION_FILE=workspace/$Problem/main.go
 if ! test -f "$SOLUTION_FILE"; then
@@ -135,7 +160,7 @@ elif [ "$RunAllTests" = "false" ]; then
 else
   echo "Testing problem $Problem against all test cases."
   CaseId=0
-  while test -f "workspace/$Problem/cases/$CaseId.in";
+  while [ -f "workspace/$Problem/cases/$CaseId.in" ];
   do
     RunTestCase
     CaseId=$((CaseId+1))

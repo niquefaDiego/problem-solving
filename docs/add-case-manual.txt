@@ -10,4 +10,4 @@ The ${Problem} variable is required to be set in the ./config file.
 The input and output files will be automatically opened in VSCode.
 
 Options:
-  --help                   show this manual, then exit
+  -h, --help               show this manual, then exit
