@@ -108,10 +108,10 @@ if [ -z "$CaseId" ]; then
   CaseId="0"
 fi
 
-if [[ "$Lang" =~ "^cpp|go$" ]]; then
-  echo "Valid language: $Lang"
-else
-  echo "Invalid language: $Lang"
+
+if ! echo "$Lang" | grep -Eq "^cpp|go$" ; then
+  echo "ERROR: Invalid language $Lang"
+  exit 1
 fi
 
 echo "Lang=$Lang" > "$ConfigFile"

@@ -42,10 +42,6 @@ while [ $# -gt 0 ]; do
   esac
 done
 
-
-echo "Lang=$Lang"
-echo "Problem=$Problem"
-
 if ! echo "$Lang" | grep -Eq "^cpp|go$" ; then
   echo "ERROR: Invalid language $Lang"
   exit 1
