@@ -1,7 +1,6 @@
 # What is this?
 
-Tools for efficient competitive programming in golang and C++ using Visual Studio Code.
-
+Tools for efficient competitive programming in Go and C++ using Visual Studio Code.
 
 # Dependencies
 
