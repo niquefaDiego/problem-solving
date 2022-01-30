@@ -54,7 +54,7 @@ func Inv(a int) int {
 	return ((x % MOD) + MOD) % MOD
 }
 
-func main2() {
+func RunTests() {
 	sum := 0
 	for i := 0; i < 10; i++ {
 		sum += i

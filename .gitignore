@@ -1,3 +1,10 @@
+# config file
 config
+
+# workspace
 workspace/*
 !workspace/.gitkeep
+
+# build folder
+build/*
+!build/.gitkeep

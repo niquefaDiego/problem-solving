@@ -5,35 +5,47 @@ Problem=""
 CaseId=""
 Debug="false"
 RunAllTests="false"
+Lang="go"
 
 # Read default values for Problem and CaseId from settings file
-if test -f "$ConfigFile"; then
+if [ -f "$ConfigFile" ]; then
   eval "$(cat $ConfigFile)"
 fi
 
 ProblemGiven="false"
-SetProblem () {
+SetProblem() {
   if [ "$ProblemGiven" = "true" ]; then
     echo "ERROR: Problem given multiple times, but it must be given at most once."
     exit 1
   else
-    Problem=$1
+    Problem="$1"
   fi
   ProblemGiven="true"
 }
 
 CaseIdGiven="false"
-SetCaseId () {
+SetCaseId() {
   if [ "$CaseIdGiven" = "true" ]; then
     echo "ERROR: Problem given multiple times, but it must be given at most once."
     exit 1
   else
-    CaseId=$1
+    CaseId="$1"
   fi
   CaseIdGiven="true"
 }
 
-while test $# -gt 0; do
+LanguageGiven="false"
+SetLanguage() {
+  if [ "$LanguageGiven" = "true" ]; then
+    echo "ERROR: Language given multiple times, but it must be given at most once."
+    exit 1
+  else
+    Lang="$1"
+  fi
+  LanguageGiven="true"
+}
+
+while [ $# -gt 0 ]; do
   case "$1" in
     
     # Problem
@@ -68,6 +80,12 @@ while test $# -gt 0; do
       exit 0
       ;;
 
+    -l|--lang)
+      shift
+      SetLanguage "$1"
+      shift
+      ;;
+
     # Some other parameter
     *)
       if [ "$CaseIdGiven" = "false" ]; then
@@ -90,30 +108,60 @@ if [ -z "$CaseId" ]; then
   CaseId="0"
 fi
 
-echo "Problem=$Problem" > "$ConfigFile"
-echo "CaseId=$CaseId" >> "$ConfigFile"
+if ! echo "$Lang" | grep -Eq "^cpp|go$" ; then
+  echo "ERROR: Invalid language $Lang"
+  exit 1
+fi
 
-SOLUTION_FILE=workspace/$Problem/main.go
-if ! test -f "$SOLUTION_FILE"; then
-  echo "Solution file not found: ${SOLUTION_FILE}"
+echo "Lang=$Lang" > "$ConfigFile"
+echo "Problem=$Problem" >> "$ConfigFile"
+echo "CaseId=0" >> "$ConfigFile"
+
+SolutionFile="workspace/$Problem/main.$Lang"
+
+if [ "$Lang" = "cpp" ]; then
+  if cmp --silent -- "$SolutionFile" "build/last_compiled.txt"; then
+    echo "No changes on $SolutionFile. Re using compiled binary..."
+    SolutionFile="build/solution"
+  else
+    echo "Compiling cpp file: $SolutionFile"
+    gcc "$SolutionFile" -o "build/solution" -std=c++20 -Wall -Wextra -O2 -Wshadow -pedantic -Wformat=2 -Wfloat-equal -Wconversion -Wcast-qual -Wcast-align -D_GLIBCXX_DEBUG -D_GLIBCXX_DEBUG_PEDANTIC  -fsanitize=address -fno-sanitize-recover -fstack-protector
+    cp "$SolutionFile" "build/last_compiled.txt"
+    SolutionFile="build/solution"
+  fi
+fi
+
+if ! test -f "$SolutionFile"; then
+  echo "Solution file not found: $SolutionFile"
   exit 0
 fi
 
-RunTestCase() {
-  INPUT_FILE=workspace/$Problem/cases/$CaseId.in
-  OUTPUT_FILE=workspace/$Problem/cases/$CaseId.txt
-  EXPECTED_FILE=workspace/$Problem/cases/$CaseId.out
+RunSolution() {
+  if [ "$Lang" = "go" ]; then
+    go run "$SolutionFile"
+  else
+    ./$SolutionFile
+  fi
+}
 
-  if ! test -f "$INPUT_FILE"; then
-    echo "Input file not found: ${INPUT_FILE}"
+RunTestCase() {
+  InputFile="workspace/$Problem/cases/$CaseId.in"
+  OutputFile="workspace/$Problem/cases/$CaseId.txt"
+  ExpectedOutputFile="workspace/$Problem/cases/$CaseId.out"
+
+  if [ ! -f "$InputFile" ]; then
+    echo "Input file not found: ${InputFile}"
     exit 1
   fi
 
-  # TODO: check if exit status code is not 0 and show error
-  go run "$SOLUTION_FILE" <"$INPUT_FILE"> "$OUTPUT_FILE"
+  if [ -f "$OutputFile" ]; then
+    rm "$OutputFile"
+  fi
 
-  if test -f "$EXPECTED_FILE"; then
-    if cmp --silent -- "$OUTPUT_FILE" "$EXPECTED_FILE"; then
+  RunSolution <"$InputFile" | cat > "$OutputFile"
+
+  if test -f "$ExpectedOutputFile"; then
+    if cmp --silent -- "$OutputFile" "$ExpectedOutputFile"; then
       echo "Case $CaseId: Correct! :D"
     else
       echo "Case $CaseId: Wrong :("
@@ -124,8 +172,8 @@ RunTestCase() {
 }
 
 if [ "$Debug" = "true" ]; then
-  INPUT_FILE=workspace/$Problem/cases/$CaseId.in
-  time go run "$SOLUTION_FILE" <"$INPUT_FILE"
+  InputFile=workspace/$Problem/cases/$CaseId.in
+  time RunSolution < "$InputFile"
 elif [ "$RunAllTests" = "false" ]; then
   echo "Testing problem $Problem against test case $CaseId."
   RunTestCase
@@ -135,7 +183,7 @@ elif [ "$RunAllTests" = "false" ]; then
 else
   echo "Testing problem $Problem against all test cases."
   CaseId=0
-  while test -f "workspace/$Problem/cases/$CaseId.in";
+  while [ -f "workspace/$Problem/cases/$CaseId.in" ];
   do
     RunTestCase
     CaseId=$((CaseId+1))
