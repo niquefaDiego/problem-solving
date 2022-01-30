@@ -1,22 +1,25 @@
 # What is this?
 
-Tools for efficient competitive programming in golang using Visual Studio Code.
+Tools for efficient competitive programming in golang and C++ using Visual Studio Code.
 
 
 # Dependencies
 
-- Golang: https://go.dev/
 - Visual Studio Code: https://code.visualstudio.com/
 - POSIX Shell: `/bin/sh --version`
+- [Optional] Golang for Go problem solving: https://go.dev/
+- [Optional] GCC for C++ problem solving: https://gcc.gnu.org/
 
 # Quickstart
 
+The following is an example of how to use golang to solve a classic [A+B problem](http://poj.org/problem?id=1000).
+
 Create a solution for problem A (folder `./workspace/A`):
 ```
-./create A
+./create -l go A
 ```
 
-This sets the `${Problem}` variable to to `"A"` in `./config`, this means the `./run` and `./add_case` commands to work in the `./workspace/A` directory. Also, it creates and opens in VSCode the files:
+This sets the `${Lang}` variable to `"go"` and `${Problem}` variable to to `"A"` in `./config`. The `${Problem}` variable makes the `./run` and `./add_case` commands to work in the `./workspace/A` directory. Also, the script creates and opens in VSCode the files:
 - `./workspace/A/main.go`: For your solution file.
 - `./workspace/A/cases/0.in`: Input file for case `0`.
 - `./workspace/A/cases/0.out`: Expected output for case `0`.
@@ -79,7 +82,10 @@ You can see the manual for any script by running them with the `-h` or `--help` 
 |  |- snippets.code-snippets
 |- docs/
 |- notebook/
-|  |- template.go
+|  |- go/
+|  |  |- template.go
+|  |- cpp/
+|  |  |- template.cpp
 |- workspace/
 |  | ...
 |  |- ${Problem}/
@@ -96,14 +102,15 @@ You can see the manual for any script by running them with the `-h` or `--help` 
 
 File/folder description:
 - `./add_case`: [Add case script manual](/docs/add-case-manual.txt).
-- `./config`: File containing the current values for `${Problem}` and `${CaseId}`.
+- `./config`: File containing the current values for `${Lang}`, `${Problem}` and `${CaseId}`.
 - `./create`: [Create script manual](/docs/create-manual.txt).
 - `./run`: [Run script manual](/docs/run-manual.txt).
 - `./open`: [Open script manual](/docs/open-manual.txt).
 - `./docs/`: Contains text files with documentation that gets shown by scripts.
 - `./notebook/`: Folder with tested implementations of algorithms, data structures or utilities to be copy pasted when needed.
 - `./.vscode/snippets.code-snippets`: Handy (VSCode snippets)[https://code.visualstudio.com/docs/editor/userdefinedsnippets] for faster problem solving.
-- `./notebook/template.go`: Default code for `./workspace/${Problem}/main.go` when `./create ${Problem}` is called.
+- `./notebook/go/template.go`: Default code for `./workspace/${Problem}/main.go` when `./create --l go ${Problem}` is called.
+- `./notebook/go/template.cpp`: Default code for `./workspace/${Problem}/main.cpp` when `./create -l cpp ${Problem}` is called.
 - `./workspace/${Problem}/`: Folder with the source code and test cases for problem `${Problem}`, it is created by `./create ${Problem}`
 - `./workspace/${Problem}/main.go`: Solution file for problem `${Problem}`.
 - `./workspace/${Problem}/cases/`: Folder containing inputs, answers and the solution outputs for the problem `${Problem}`.
@@ -113,4 +120,4 @@ File/folder description:
 
 ## Contribute
 
-See [contributing guidelines](contributing.md).
+See [contributing guidelines](CONTRIBUTING.md).

@@ -20,5 +20,6 @@ the ./config file.
 Options:
   -l,--lang                set the ${Lang} variable in ./config file, and uses
                            creates the solution file with the template for the
-                           given language
+                           given language. The accepted languages are "go" and
+                           "cpp"
   -h, --help               show this manual, then exit

@@ -5,7 +5,7 @@ Problem=""
 ConfigFile=config
 
 LanguageGiven="false"
-SetLanguage () {
+SetLanguage() {
   if [ "$LanguageGiven" = "true" ]; then
     echo "ERROR: Language given multiple times, but it must be given at most once."
     exit 1
@@ -30,7 +30,6 @@ while [ $# -gt 0 ]; do
       ;;
 
     *)
-      echo "Default"
       if [ -z "$Problem" ]; then
         Problem="$1"
         shift
@@ -60,7 +59,7 @@ cp "notebook/$Lang/template.$Lang" "workspace/$Problem/main.$Lang"
 touch "workspace/$Problem/cases/0.in"
 touch "workspace/$Problem/cases/0.out"
 
-code "workspace/$Problem/main.go"
+code "workspace/$Problem/main.$Lang"
 code "workspace/$Problem/cases/0.in"
 code "workspace/$Problem/cases/0.out"
 

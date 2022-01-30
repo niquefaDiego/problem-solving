@@ -8,6 +8,9 @@ Options:
   -a, --all                test solution against all test cases
   -c, --case arg           set the ${CaseId} variable in ./config file
   -p, --problem arg        set the ${Problem} variable in ./config file
+  -l,--lang                set the ${Lang} variable in ./config file, and uses
+                           solution file for that language. The accepted
+                           languages are "go" and "cpp"
   -h, --help               show this manual, then exit
 
 Variables saved in ./config will be used as default values when not specified
