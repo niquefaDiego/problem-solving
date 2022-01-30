@@ -1,11 +1,27 @@
 #!/bin/sh
 
+# ----- COLORS VARIABLES AND FUNCTIONS -----
+
+TextReset="\033[0m"       # Text Reset
+Cyan="\033[0;36m"         # Cyan
+Red="\033[0;31m"          # Red
+Green="\033[0;32m"        # Green
+
+EchoError() { echo "${Red}ERROR: $1${TextReset}"; }
+EchoRed() { echo "${Red}$1{$TextReset}"; }
+EchoGreen() { echo "${Green}$1${TextReset}"; }
+EchoInfo() { echo "${Cyan}$1${TextReset}"; }
+EchoInfoNoEndl()  { printf "${Cyan}%s${TextReset}" "$1";}
+
+# ----- DEFINE, READ AND SAVE VARIABLES -----
+
 ConfigFile=config
 Problem=""
 CaseId=""
 Debug="false"
 RunAllTests="false"
 Lang="go"
+
 
 # Read default values for Problem and CaseId from settings file
 if [ -f "$ConfigFile" ]; then
@@ -15,7 +31,7 @@ fi
 ProblemGiven="false"
 SetProblem() {
   if [ "$ProblemGiven" = "true" ]; then
-    echo "ERROR: Problem given multiple times, but it must be given at most once."
+    EchoError "Problem given multiple times, but it must be given at most once."
     exit 1
   else
     Problem="$1"
@@ -26,7 +42,7 @@ SetProblem() {
 CaseIdGiven="false"
 SetCaseId() {
   if [ "$CaseIdGiven" = "true" ]; then
-    echo "ERROR: Problem given multiple times, but it must be given at most once."
+    EchoError "Problem given multiple times, but it must be given at most once."
     exit 1
   else
     CaseId="$1"
@@ -37,7 +53,7 @@ SetCaseId() {
 LanguageGiven="false"
 SetLanguage() {
   if [ "$LanguageGiven" = "true" ]; then
-    echo "ERROR: Language given multiple times, but it must be given at most once."
+    EchoError "Language given multiple times, but it must be given at most once."
     exit 1
   else
     Lang="$1"
@@ -92,7 +108,7 @@ while [ $# -gt 0 ]; do
         SetCaseId "$1"
         shift
       else
-        echo "ERROR: Could not parse parameter: $1"
+        EchoError "Could not parse parameter: $1"
         exit 1;
       fi
       ;;
@@ -109,7 +125,7 @@ if [ -z "$CaseId" ]; then
 fi
 
 if ! echo "$Lang" | grep -Eq "^cpp|go$" ; then
-  echo "ERROR: Invalid language $Lang"
+  EchoError "Invalid language $Lang"
   exit 1
 fi
 
@@ -117,14 +133,17 @@ echo "Lang=$Lang" > "$ConfigFile"
 echo "Problem=$Problem" >> "$ConfigFile"
 echo "CaseId=0" >> "$ConfigFile"
 
+
+# ----- RUN SOLUTION -----
+
 SolutionFile="workspace/$Problem/main.$Lang"
 
 if [ "$Lang" = "cpp" ]; then
   if cmp --silent -- "$SolutionFile" "build/last_compiled.txt"; then
-    echo "No changes on $SolutionFile. Re using compiled binary..."
+    EchoInfo "No changes on $SolutionFile. Re using compiled binary..."
     SolutionFile="build/solution"
   else
-    echo "Compiling cpp file: $SolutionFile"
+    EchoInfo "Compiling cpp file: $SolutionFile"
     gcc "$SolutionFile" -o "build/solution" -std=c++20 -Wall -Wextra -O2 -Wshadow -pedantic -Wformat=2 -Wfloat-equal -Wconversion -Wcast-qual -Wcast-align -D_GLIBCXX_DEBUG -D_GLIBCXX_DEBUG_PEDANTIC  -fsanitize=address -fno-sanitize-recover -fstack-protector
     cp "$SolutionFile" "build/last_compiled.txt"
     SolutionFile="build/solution"
@@ -132,7 +151,7 @@ if [ "$Lang" = "cpp" ]; then
 fi
 
 if ! test -f "$SolutionFile"; then
-  echo "Solution file not found: $SolutionFile"
+  EchoError "Solution file not found ($SolutionFile)"
   exit 0
 fi
 
@@ -150,7 +169,7 @@ RunTestCase() {
   ExpectedOutputFile="workspace/$Problem/cases/$CaseId.out"
 
   if [ ! -f "$InputFile" ]; then
-    echo "Input file not found: ${InputFile}"
+    EchoError "Input file not found (${InputFile})"
     exit 1
   fi
 
@@ -161,13 +180,14 @@ RunTestCase() {
   RunSolution <"$InputFile" | cat > "$OutputFile"
 
   if test -f "$ExpectedOutputFile"; then
+    EchoInfoNoEndl " -> Case $CaseId: "
     if cmp --silent -- "$OutputFile" "$ExpectedOutputFile"; then
-      echo "Case $CaseId: Correct! :D"
+      EchoGreen "Correct! :D"
     else
-      echo "Case $CaseId: Wrong :("
+      EchoRed "Wrong :("
     fi
   else
-    echo "Case $CaseId: No answer file"
+    EchoError "Case $CaseId: No answer file."
   fi
 }
 
@@ -175,13 +195,13 @@ if [ "$Debug" = "true" ]; then
   InputFile=workspace/$Problem/cases/$CaseId.in
   time RunSolution < "$InputFile"
 elif [ "$RunAllTests" = "false" ]; then
-  echo "Testing problem $Problem against test case $CaseId."
+  EchoInfo "Testing problem $Problem against test case $CaseId."
   RunTestCase
-  echo "----- OUTPUT START -----"
+  EchoInfo "----- OUTPUT START -----"
   cat "workspace/$Problem/cases/$CaseId.txt"
-  echo "------ OUTPUT END ------"
+  EchoInfo "------ OUTPUT END ------"
 else
-  echo "Testing problem $Problem against all test cases."
+  EchoInfo "Testing problem $Problem against all test cases..."
   CaseId=0
   while [ -f "workspace/$Problem/cases/$CaseId.in" ];
   do
