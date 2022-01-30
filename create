@@ -56,7 +56,7 @@ fi
 mkdir "workspace/$Problem"
 mkdir "workspace/$Problem/cases"
 
-cp "notebook/$Lang/template.go" "workspace/$Problem/main.go"
+cp "notebook/$Lang/template.go" "workspace/$Problem/main.$Lang"
 touch "workspace/$Problem/cases/0.in"
 touch "workspace/$Problem/cases/0.out"
 

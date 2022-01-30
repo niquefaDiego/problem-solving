@@ -108,7 +108,6 @@ if [ -z "$CaseId" ]; then
   CaseId="0"
 fi
 
-
 if ! echo "$Lang" | grep -Eq "^cpp|go$" ; then
   echo "ERROR: Invalid language $Lang"
   exit 1
@@ -118,16 +117,22 @@ echo "Lang=$Lang" > "$ConfigFile"
 echo "Problem=$Problem" >> "$ConfigFile"
 echo "CaseId=0" >> "$ConfigFile"
 
-SOLUTION_FILE=workspace/$Problem/main.go
+SOLUTION_FILE="workspace/$Problem/main.$Lang"
+
+if [ "$Lang" = "cpp" ]; then
+  echo "Compiling cpp file: $SOLUTION_FILE"
+  exit 0
+fi
+
 if ! test -f "$SOLUTION_FILE"; then
-  echo "Solution file not found: ${SOLUTION_FILE}"
+  echo "Solution file not found: $SOLUTION_FILE"
   exit 0
 fi
 
 RunTestCase() {
-  INPUT_FILE=workspace/$Problem/cases/$CaseId.in
-  OUTPUT_FILE=workspace/$Problem/cases/$CaseId.txt
-  EXPECTED_FILE=workspace/$Problem/cases/$CaseId.out
+  INPUT_FILE="workspace/$Problem/cases/$CaseId.in"
+  OUTPUT_FILE="workspace/$Problem/cases/$CaseId.txt"
+  EXPECTED_FILE="workspace/$Problem/cases/$CaseId.out"
 
   if ! test -f "$INPUT_FILE"; then
     echo "Input file not found: ${INPUT_FILE}"
