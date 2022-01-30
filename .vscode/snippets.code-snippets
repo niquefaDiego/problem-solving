@@ -55,5 +55,18 @@
       "  scan(&${2:a}[i])",
       "}", "$0",
     ]
+  },
+  "Go: PrintArr": {
+    "scope": "go", "prefix": "PrintArr",
+    "description": "Prints an array space separated in one line",
+    "body": [
+      "for i := 0; i < ${1:n}; i++ {",
+      "  if i > 0 {",
+      "    printf(\" \")",
+      "  }",
+      "  printf(\"%${2:d}\", ${3:a}[i])",
+      "}",
+      "printf(\"\\n\")", "$0",
+    ]
   }
 }
