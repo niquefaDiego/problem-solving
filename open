@@ -16,7 +16,7 @@ if [ ! -z "$1" ]; then
 fi
 
 if [ -z "$CaseId" ]; then
-  echo "ERROR: CaseId not given as a parameter and is not present in the ./config file."
+  EchoError "CaseId not given as a parameter and is not present in the ./config file."
   exit 1
 fi
 
@@ -24,7 +24,7 @@ INPUT_FILE="workspace/$Problem/cases/$CaseId.in"
 OUTPUT_FILE="workspace/$Problem/cases/$CaseId.out"
 
 if ! test -f "$INPUT_FILE"; then
-  echo "ERROR: Input file not found: $INPUT_FILE"
+  EchoError  "Input file not found: $INPUT_FILE"
   exit 1
 fi
 

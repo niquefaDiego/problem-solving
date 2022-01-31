@@ -11,14 +11,14 @@ if [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
 fi
 
 if ! test -f "$ConfigFile"; then
-  echo "Error: ./config file not found"
+  EchoError "./config file not found"
   exit 1
 fi
 
 eval "$(cat $ConfigFile)"
 
 if [ -z "$Problem" ]; then
-  echo "Error: Problem variable not found in ./config file"
+  EchoError "Problem variable not found in ./config file"
   exit 1
 fi
 
@@ -28,6 +28,6 @@ do
   CaseId=$((CaseId+1))
 done
 
-echo "Adding case $CaseId..."
+EchoInfo "Adding case $CaseId..."
 code "workspace/$Problem/cases/$CaseId.out"
 code "workspace/$Problem/cases/$CaseId.in"
