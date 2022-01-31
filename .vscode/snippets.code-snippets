@@ -47,7 +47,7 @@
       "}", "$0"
     ],
   },
-  "Go: ReadArr": {
+  "Go: ScanArr": {
     "scope": "go", "prefix": "ReadArr",
     "description": "Reads an array",
     "body": [
@@ -67,6 +67,22 @@
       "  printf(\"%${2:d}\", ${3:a}[i])",
       "}",
       "printf(\"\\n\")", "$0",
+    ]
+  },
+  "Go: Unique": {
+    "scope": "go", "prefix": "Unique",
+    "description": "Removes contiguous equal elements from slice and returns the new slice",
+    "body": [
+      "func unique(a []${1:int}) []${1:int} {",
+      "  j := 1",
+      "  for i := 1; i < len(a); i++ {",
+      "    if a[i] != a[i-1] {",
+      "      a[j] = a[i]",
+      "      j++",
+      "    }",
+      "  }",
+      "  return a[:j]",
+      "}", "$0",
     ]
   }
 }
