@@ -26,5 +26,5 @@ do
 done
 
 echo "Adding case $CaseId..."
-code "workspace/$Problem/cases/$CaseId.in"
 code "workspace/$Problem/cases/$CaseId.out"
+code "workspace/$Problem/cases/$CaseId.in"
