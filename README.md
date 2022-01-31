@@ -7,7 +7,7 @@ Tools for efficient competitive programming in Go and C++ using Visual Studio Co
 - Visual Studio Code: https://code.visualstudio.com/
 - POSIX Shell: `/bin/sh --version`
 - [Optional] Golang for Go problem solving: https://go.dev/
-- [Optional] GCC for C++ problem solving: https://gcc.gnu.org/
+- [Optional] G++ for C++ problem solving: `$ g++ --version`
 
 # Quickstart
 

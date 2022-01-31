@@ -134,7 +134,11 @@ if [ "$Lang" = "cpp" ]; then
     SolutionFile="build/solution"
   else
     EchoInfo "Compiling cpp file: $SolutionFile"
-    gcc "$SolutionFile" -o "build/solution" -std=c++20 -Wall -Wextra -O2 -Wshadow -pedantic -Wformat=2 -Wfloat-equal -Wconversion -Wcast-qual -Wcast-align -D_GLIBCXX_DEBUG -D_GLIBCXX_DEBUG_PEDANTIC  -fsanitize=address -fno-sanitize-recover -fstack-protector
+    g++ "$SolutionFile" -o "build/solution" -std=c++20 -Wall -Wextra -O2 -Wshadow -pedantic -Wformat=2 -Wfloat-equal -Wconversion -Wcast-qual -Wcast-align -D_GLIBCXX_DEBUG -D_GLIBCXX_DEBUG_PEDANTIC  -fsanitize=address -fno-sanitize-recover -fstack-protector
+    if [ $? -ne 0 ]; then
+      EchoError "Compilation Error"
+      exit 1
+    fi
     cp "$SolutionFile" "build/last_compiled.txt"
     SolutionFile="build/solution"
   fi
