@@ -1,9 +1,12 @@
 #!/bin/sh
 
+source "scripts/sh/color.sh"
+
 ConfigFile=config
 
-if [ "$1" = "-h" -o "$1" = "--help" ]; then
-  cat "docs/add-case-manual.txt"
+if [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
+  SetInfoColor
+  cat "scripts/docs/add-case-manual.txt"
   exit 0
 fi
 

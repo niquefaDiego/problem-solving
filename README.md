@@ -79,7 +79,7 @@ You can see the manual for any script by running them with the `-h` or `--help` 
 |- run
 |- .vscode/
 |  |- snippets.code-snippets
-|- docs/
+|- scripts/
 |- notebook/
 |  |- go/
 |  |  |- template.go
@@ -100,12 +100,12 @@ You can see the manual for any script by running them with the `-h` or `--help` 
 ```
 
 File/folder description:
-- `./add_case`: [Add case script manual](/docs/add-case-manual.txt).
+- `./add_case`: [Add case script manual](/scripts/docs/add-case-manual.txt).
 - `./config`: File containing the current values for `${Lang}`, `${Problem}` and `${CaseId}`.
-- `./create`: [Create script manual](/docs/create-manual.txt).
-- `./run`: [Run script manual](/docs/run-manual.txt).
-- `./open`: [Open script manual](/docs/open-manual.txt).
-- `./docs/`: Contains text files with documentation that gets shown by scripts.
+- `./create`: [Create script manual](/scripts/docs/create-manual.txt).
+- `./run`: [Run script manual](/scripts/docs/run-manual.txt).
+- `./open`: [Open script manual](/scripts/docs/open-manual.txt).
+- `./scripts/`: Contains helper scripts used by the main scripts in the root folder.
 - `./notebook/`: Folder with tested implementations of algorithms, data structures or utilities to be copy pasted when needed.
 - `./.vscode/snippets.code-snippets`: Handy (VSCode snippets)[https://code.visualstudio.com/docs/editor/userdefinedsnippets] for faster problem solving.
 - `./notebook/go/template.go`: Default code for `./workspace/${Problem}/main.go` when `./create --l go ${Problem}` is called.

@@ -1,5 +1,7 @@
 #!/bin/sh
 
+source scripts/sh/color.sh
+
 Lang="go"
 Problem=""
 ConfigFile=config
@@ -7,7 +9,7 @@ ConfigFile=config
 LanguageGiven="false"
 SetLanguage() {
   if [ "$LanguageGiven" = "true" ]; then
-    echo "ERROR: Language given multiple times, but it must be given at most once."
+    EchoError "Language given multiple times, but it must be given at most once."
     exit 1
   else
     Lang="$1"
@@ -19,7 +21,8 @@ SetLanguage() {
 while [ $# -gt 0 ]; do
   case "$1" in
     -h|--help)
-      cat "docs/create-manual.txt"
+      SetInfoColor
+      cat "scripts/docs/create-manual.txt"
       exit 0
       ;;
 
@@ -34,7 +37,7 @@ while [ $# -gt 0 ]; do
         Problem="$1"
         shift
       else
-        echo "ERROR: Could not parse parameter: $1"
+        EchoError "Could not parse parameter: $1"
         exit 1
       fi
       ;;
@@ -42,18 +45,17 @@ while [ $# -gt 0 ]; do
 done
 
 if ! echo "$Lang" | grep -Eq "^cpp|go$" ; then
-  echo "ERROR: Invalid language $Lang"
+  EchoError "Invalid language $Lang"
   exit 1
 fi
 
 if [ -d "workspace/$Problem" ]
 then
-	echo "ERROR: Directory workspace/$Problem already exists"
+	EchoError "Directory workspace/$Problem already exists"
 	exit 1
 fi
 
-mkdir "workspace/$Problem"
-mkdir "workspace/$Problem/cases"
+mkdir -p "workspace/$Problem/cases"
 
 cp "notebook/$Lang/template.$Lang" "workspace/$Problem/main.$Lang"
 touch "workspace/$Problem/cases/0.in"

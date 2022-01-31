@@ -1,10 +1,13 @@
 #!/bin/sh
 
+source scripts/sh/color.sh
+
 ConfigFile=config
 eval $(cat $ConfigFile)
 
 if [ "$1" = "-h" -o "$1" = "--help" ]; then
-  cat "docs/open-manual.txt"
+  SetInfoColor
+  cat "scripts/docs/open-manual.txt"
   exit 0
 fi
 
