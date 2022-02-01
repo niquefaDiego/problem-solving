@@ -173,15 +173,15 @@ RunTestCase() {
 
   RunSolution <"$InputFile" | cat > "$OutputFile"
 
+  EchoInfoNoEndl " -> Case $CaseId: "
   if test -f "$ExpectedOutputFile"; then
-    EchoInfoNoEndl " -> Case $CaseId: "
     if cmp --silent -- "$OutputFile" "$ExpectedOutputFile"; then
       EchoGreen "Correct! :D"
     else
       EchoRed "Wrong :("
     fi
   else
-    EchoError "Case $CaseId: No answer file."
+    EchoInfo "No answer file."
   fi
 }
 
