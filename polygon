@@ -1,0 +1,89 @@
+#!/bin/sh
+
+source scripts/sh/color.sh
+
+ConfigFile=config
+
+# Read default values for Problem and CaseId from settings file
+if [ -f "$ConfigFile" ]; then
+  eval "$(cat $ConfigFile)"
+else
+  EchoError "./config file is required. See manual with -h or --help flag."
+  exit 1
+fi
+
+# Read default values for Problem and CaseId from settings file
+if [ -f "$ConfigFile" ]; then
+  eval "$(cat $ConfigFile)"
+fi
+
+ShowManual() {
+  ./scripts/sh/docs/show-polygon-manual.sh
+  exit 0
+}
+
+if [ $# -eq 0 ]; then
+  EchoError "Requires at least one argument. See manual with -h or --help flag."
+  exit 1
+fi
+
+if [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
+  ShowManual
+fi
+
+CompileValidator() {
+  ValidatorSourceFile="workspace/$Problem/polygon/validator.cpp"
+  ValidatorExecFile="build/polygon/validator"
+  ValidatorCacheFile="build/polygon/validator.cache.cpp"
+
+  if cmp --silent "$ValidatorSourceFile" "$ValidatorCacheFile"; then
+    EchoInfo "No changes in $ValidatorSourceFile. Re using previously compiled validator..."
+  else
+    EchoInfo "Compiling validator: $ValidatorSourceFile"
+    g++ "$ValidatorSourceFile" -std=c++17 -o build/polygon/validator
+    cp "$ValidatorSourceFile" "$ValidatorCacheFile"
+  fi
+}
+
+RunValidatorOnCase() {
+  InputFile="workspace/$Problem/cases/$1.in"
+  EchoInfo "-> Validating $InputFile"
+  if ! ./"$ValidatorExecFile" <"$InputFile" ; then
+    InvalidInputCount=$((InvalidInputCount+1))
+  else
+    ValidInputCount=$((ValidInputCount+1))
+  fi
+}
+
+RunValidatorOnAllCases() {
+  EchoInfo "Running validator on all cases...\n"
+  CaseId=0
+  while [ -f "workspace/$Problem/cases/$CaseId.in" ];
+  do
+    RunValidatorOnCase $CaseId
+    CaseId=$((CaseId+1))
+  done
+  EchoInfo "Valid cases: $ValidInputCount"
+  if [ $InvalidInputCount -gt 0 ]; then
+    EchoError "Found $InvalidInputCount invalid cases"
+    exit 1
+  fi
+}
+
+case "$1" in
+  validator|v)
+    shift
+    CompileValidator
+    InvalidInputCount=0
+    ValidInputCount=0
+    if [ -z "$1" ]; then
+      RunValidatorOnAllCases "$1"
+    else
+      RunValidatorOnCase "$1"
+    fi
+    ;;
+  *)
+    EchoError "Could not parse parameter: $1"
+    exit 1;
+    ;;
+esac
