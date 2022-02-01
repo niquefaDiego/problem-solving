@@ -42,7 +42,11 @@ CompileWithCache() {
     EchoInfo "No changes in $CppFile. Re using existing binary..."
   else
     EchoInfo "Compiling $CppFile..."
-    g++ "$CppFile" -std=c++17 -o "$ExecFile"
+    g++ "$CppFile" -std=c++17 -o "$ExecFile" -I "scripts/cpp/polygon"
+    if [ $? -ne 0 ]; then
+      EchoError "Compilation error :("
+      exit 1
+    fi
     cp "$CppFile" "$CacheFile"
   fi
 }
