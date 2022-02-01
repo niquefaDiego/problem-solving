@@ -3,12 +3,13 @@
 source scripts/sh/color.sh
 
 ConfigFile=config
+SeeManual="See manual with -h or --help flag."
 
 # Read default values for Problem and CaseId from settings file
 if [ -f "$ConfigFile" ]; then
   eval "$(cat $ConfigFile)"
 else
-  EchoError "./config file is required. See manual with -h or --help flag."
+  EchoError "./config file is required. ${SeeManual}"
   exit 1
 fi
 
@@ -23,7 +24,7 @@ ShowManual() {
 }
 
 if [ $# -eq 0 ]; then
-  EchoError "Requires at least one argument. See manual with -h or --help flag."
+  EchoError "Requires at least one argument. ${SeeManual}"
   exit 1
 fi
 
@@ -31,18 +32,27 @@ if [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
   ShowManual
 fi
 
+CompileWithCache() {
+  # TODO: Make compilation work without testlib.h maybe?
+
+  CppFile="$1"
+  ExecFile="$2"
+  CacheFile="$3"
+  if cmp --silent "$CppFile" "$CacheFile"; then
+    EchoInfo "No changes in $CppFile. Re using existing binary..."
+  else
+    EchoInfo "Compiling $CppFile..."
+    g++ "$CppFile" -std=c++17 -o "$ExecFile"
+    cp "$CppFile" "$CacheFile"
+  fi
+}
+
 CompileValidator() {
   ValidatorSourceFile="workspace/$Problem/polygon/validator.cpp"
   ValidatorExecFile="build/polygon/validator"
   ValidatorCacheFile="build/polygon/validator.cache.cpp"
 
-  if cmp --silent "$ValidatorSourceFile" "$ValidatorCacheFile"; then
-    EchoInfo "No changes in $ValidatorSourceFile. Re using previously compiled validator..."
-  else
-    EchoInfo "Compiling validator: $ValidatorSourceFile"
-    g++ "$ValidatorSourceFile" -std=c++17 -o build/polygon/validator
-    cp "$ValidatorSourceFile" "$ValidatorCacheFile"
-  fi
+  CompileWithCache "$ValidatorSourceFile" "$ValidatorExecFile" "$ValidatorCacheFile"
 }
 
 RunValidatorOnCase() {
@@ -70,6 +80,15 @@ RunValidatorOnAllCases() {
   fi
 }
 
+CompileGenerator() {
+  GeneratorFileName="$1"
+
+  GeneratorSourceFile="workspace/$Problem/polygon/$GeneratorFileName.cpp"
+  GeneratorExecFile="build/polygon/generator"
+  GeneratorCacheFile="build/polygon/generator.cache.cpp"
+  CompileWithCache "$GeneratorSourceFile" "$GeneratorExecFile" "$GeneratorCacheFile"
+}
+
 case "$1" in
   validator|v)
     shift
@@ -82,8 +101,20 @@ case "$1" in
       RunValidatorOnCase "$1"
     fi
     ;;
+
+  generator|g)
+    shift
+    if [ -z "$1" ]; then
+      EchoError "Generator name is required. ${SeeManual}"
+      exit 1
+    fi
+    CompileGenerator $1
+    shift
+    ./"$GeneratorExecFile" "$@"
+    ;;
+
   *)
-    EchoError "Could not parse parameter: $1"
+    EchoError "Could not parse argument: $1"
     exit 1;
     ;;
 esac
