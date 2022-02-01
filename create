@@ -2,9 +2,10 @@
 
 source scripts/sh/color.sh
 
-Lang="go"
+Lang="cpp"
 Problem=""
 ConfigFile=config
+Polygon="false"
 
 LanguageGiven="false"
 SetLanguage() {
@@ -32,6 +33,11 @@ while [ $# -gt 0 ]; do
       shift
       ;;
 
+    -p|--polygon)
+      shift
+      Polygon="true"
+      ;;
+
     *)
       if [ -z "$Problem" ]; then
         Problem="$1"
@@ -57,9 +63,18 @@ fi
 
 mkdir -p "workspace/$Problem/cases"
 
-cp "notebook/$Lang/template.$Lang" "workspace/$Problem/main.$Lang"
-touch "workspace/$Problem/cases/0.in"
-touch "workspace/$Problem/cases/0.out"
+if [ "$Polygon" = "true" ]; then
+  mkdir -p "workspace/$Problem/polygon"
+  cp "scripts/cpp/polygon/templates/main.cpp" "workspace/$Problem"
+  cp "scripts/cpp/polygon/templates/validator.cpp" "workspace/$Problem/polygon"
+  cp "scripts/cpp/polygon/templates/generator.cpp" "workspace/$Problem/polygon/gen-random.cpp"
+  echo "4 11" > "workspace/$Problem/cases/0.in"
+  echo "15" > "workspace/$Problem/cases/0.out"
+else
+  cp "notebook/$Lang/template.$Lang" "workspace/$Problem/main.$Lang"
+  touch "workspace/$Problem/cases/0.in"
+  touch "workspace/$Problem/cases/0.out"
+fi
 
 code "workspace/$Problem/main.$Lang"
 code "workspace/$Problem/cases/0.in"

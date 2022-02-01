@@ -42,7 +42,7 @@ CompileWithCache() {
     EchoInfo "No changes in $CppFile. Re using existing binary..."
   else
     EchoInfo "Compiling $CppFile..."
-    g++ "$CppFile" -std=c++17 -o "$ExecFile" -I "scripts/cpp/polygon"
+    g++ "$CppFile" -std=c++17 -o "$ExecFile" -I "scripts/cpp/polygon/cpp-compiler-path"
     if [ $? -ne 0 ]; then
       EchoError "Compilation error :("
       exit 1
@@ -81,6 +81,8 @@ RunValidatorOnAllCases() {
   if [ $InvalidInputCount -gt 0 ]; then
     EchoError "Found $InvalidInputCount invalid cases"
     exit 1
+  else
+    EchoGreen "All cases passed validation!"
   fi
 }
 
