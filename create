@@ -22,8 +22,7 @@ SetLanguage() {
 while [ $# -gt 0 ]; do
   case "$1" in
     -h|--help)
-      SetInfoColor
-      cat "scripts/docs/create-manual.txt"
+      ./scripts/sh/docs/show-create-manual.sh
       exit 0
       ;;
 
