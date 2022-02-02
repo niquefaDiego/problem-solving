@@ -128,7 +128,7 @@ echo "CaseId=0" >> "$ConfigFile"
 SolutionFile="workspace/$Problem/main.$Lang"
 
 if [ "$Lang" = "cpp" ]; then
-  if cmp --silent -- "$SolutionFile" "build/last_compiled.txt"; then
+  if cmp --silent -- "$SolutionFile" "build/main.cache.cpp"; then
     EchoInfo "No changes on $SolutionFile"
     SolutionFile="build/solution"
   else
@@ -138,7 +138,7 @@ if [ "$Lang" = "cpp" ]; then
       EchoError "Compilation Error"
       exit 1
     fi
-    cp "$SolutionFile" "build/last_compiled.txt"
+    cp "$SolutionFile" "build/main.cache.cpp"
     SolutionFile="build/solution"
   fi
 fi
