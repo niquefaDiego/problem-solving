@@ -146,6 +146,7 @@ This will create
 |  |  |  |- 0.out   # Sample output 0
 |  |  |- polygon/
 |  |  |- |- validator.cpp # Sample input validator
+|  |  |- |- checker.cpp # Sample checker
 |  |  |- |- gen-random.cpp # Sample random case generator
 ```
 
