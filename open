@@ -6,8 +6,7 @@ ConfigFile=config
 eval $(cat $ConfigFile)
 
 if [ "$1" = "-h" -o "$1" = "--help" ]; then
-  SetInfoColor
-  cat "scripts/docs/open-manual.txt"
+  ./scripts/sh/docs/show-open-manual.sh
   exit 0
 fi
 

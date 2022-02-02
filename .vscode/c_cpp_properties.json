@@ -1,0 +1,11 @@
+{
+  "configurations": [
+    {
+      "name": "Default",
+      "includePath": [
+        "${workspaceFolder}/scripts/cpp/polygon/cpp-include-path"
+      ]
+    }
+  ],
+  "version": 4
+}

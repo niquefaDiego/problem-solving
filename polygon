@@ -1,0 +1,133 @@
+#!/bin/sh
+
+source scripts/sh/color.sh
+
+ConfigFile=config
+SeeManual="See manual with -h or --help flag."
+
+# Read default values for Problem and CaseId from settings file
+if [ -f "$ConfigFile" ]; then
+  eval "$(cat $ConfigFile)"
+else
+  EchoError "./config file is required. ${SeeManual}"
+  exit 1
+fi
+
+# Read default values for Problem and CaseId from settings file
+if [ -f "$ConfigFile" ]; then
+  eval "$(cat $ConfigFile)"
+fi
+
+ShowManual() {
+  ./scripts/sh/docs/show-polygon-manual.sh
+  exit 0
+}
+
+if [ $# -eq 0 ]; then
+  EchoError "Requires at least one argument. ${SeeManual}"
+  exit 1
+fi
+
+if [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
+  ShowManual
+fi
+
+CompileWithCache() {
+  CppFile="$1"
+  ExecFile="$2"
+  CacheFile="$3"
+  if cmp --silent "$CppFile" "$CacheFile"; then
+    EchoInfo "No changes in $CppFile. Re using existing binary..."
+  else
+    EchoInfo "Compiling $CppFile..."
+    g++ "$CppFile" -std=c++17 -o "$ExecFile" -I "scripts/cpp/polygon/cpp-include-path"
+    if [ $? -ne 0 ]; then
+      EchoError "Compilation error :("
+      exit 1
+    fi
+    cp "$CppFile" "$CacheFile"
+  fi
+}
+
+CompileValidator() {
+  ValidatorSourceFile="workspace/$Problem/polygon/validator.cpp"
+  ValidatorExecFile="build/polygon/validator"
+  ValidatorCacheFile="build/polygon/validator.cache.cpp"
+
+  CompileWithCache "$ValidatorSourceFile" "$ValidatorExecFile" "$ValidatorCacheFile"
+}
+
+RunValidatorOnCase() {
+  InputFile="workspace/$Problem/cases/$1.in"
+  EchoInfo "-> Validating $InputFile"
+  if ! ./"$ValidatorExecFile" <"$InputFile" ; then
+    InvalidInputCount=$((InvalidInputCount+1))
+  else
+    ValidInputCount=$((ValidInputCount+1))
+  fi
+}
+
+RunValidatorOnAllCases() {
+  EchoInfo "Running validator on all cases...\n"
+  CaseId=0
+  while [ -f "workspace/$Problem/cases/$CaseId.in" ];
+  do
+    RunValidatorOnCase $CaseId
+    CaseId=$((CaseId+1))
+  done
+  EchoInfo "Valid cases: $ValidInputCount"
+  if [ $InvalidInputCount -gt 0 ]; then
+    EchoError "Found $InvalidInputCount invalid cases"
+    exit 1
+  else
+    EchoGreen "All cases passed validation!"
+  fi
+}
+
+CompileGenerator() {
+  GeneratorFileName="$1"
+
+  GeneratorSourceFile="workspace/$Problem/polygon/$GeneratorFileName.cpp"
+  GeneratorExecFile="build/polygon/generator"
+  GeneratorCacheFile="build/polygon/generator.cache.cpp"
+  CompileWithCache "$GeneratorSourceFile" "$GeneratorExecFile" "$GeneratorCacheFile"
+}
+
+case "$1" in
+  validator|v)
+    shift
+    if [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
+      ./scripts/sh/docs/show-polygon-validator-manual.sh
+      exit 0
+    fi
+
+    CompileValidator
+    InvalidInputCount=0
+    ValidInputCount=0
+    if [ -z "$1" ]; then
+      RunValidatorOnAllCases "$1"
+    else
+      RunValidatorOnCase "$1"
+    fi
+    ;;
+
+  generator|g)
+    shift
+    if [ -z "$1" ]; then
+      EchoError "Generator name is required. ${SeeManual}"
+      exit 1
+    elif [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
+      ./scripts/sh/docs/show-polygon-generator-manual.sh
+      exit 0
+    else
+      CompileGenerator $1
+      shift
+      ./"$GeneratorExecFile" "$@"
+    fi
+    ;;
+
+  *)
+    EchoError "Could not parse argument: $1"
+    exit 1;
+    ;;
+esac

@@ -5,8 +5,7 @@ source "scripts/sh/color.sh"
 ConfigFile=config
 
 if [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
-  SetInfoColor
-  cat "scripts/docs/add-case-manual.txt"
+  ./scripts/sh/docs/show-add-case-manual.sh
   exit 0
 fi
 
