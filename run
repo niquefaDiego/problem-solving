@@ -105,7 +105,7 @@ while [ $# -gt 0 ]; do
 done  
 
 if [ -z "$Problem" ]; then
-  cat docs/run-problem-required.txt
+  ./scripts/sh/docs/show-run-problem-required.sh
   exit 1
 fi
 

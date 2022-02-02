@@ -1,7 +1,0 @@
-
-ERROR: Problem is required.
-
-You can specify it using the argument -p or --problem. For example: ./run.sh -problem A -case 0
-The problem will be saved in the "./config" file for subsequent executions of "./run".
-Running "./create {problem}" will also save the problem in "./config".
-
