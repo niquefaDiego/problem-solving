@@ -22,13 +22,13 @@ fi
 INPUT_FILE="workspace/$Problem/cases/$CaseId.in"
 OUTPUT_FILE="workspace/$Problem/cases/$CaseId.out"
 
-if ! test -f "$INPUT_FILE"; then
+if [ ! -f "$INPUT_FILE" ]; then
   EchoError  "Input file not found: $INPUT_FILE"
   exit 1
 fi
 
 code $INPUT_FILE
 
-if test -f "$OUTPUT_FILE"; then
+if [ -f "$OUTPUT_FILE" ]; then
   code $OUTPUT_FILE
 fi

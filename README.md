@@ -11,6 +11,11 @@ Tools for efficient competitive programming in Go and C++ using Visual Studio Co
 
 # Quickstart
 
+In order for all the scripts to run you have to give them permission:
+```
+chmod +x **/*.sh
+```
+
 The following is an example of how to use golang to solve a classic [A+B problem](http://poj.org/problem?id=1000).
 
 Create a solution for problem A (folder `./workspace/A`):

@@ -32,29 +32,12 @@ if [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
   ShowManual
 fi
 
-CompileWithCache() {
-  CppFile="$1"
-  ExecFile="$2"
-  CacheFile="$3"
-  if cmp --silent "$CppFile" "$CacheFile"; then
-    EchoInfo "No changes in $CppFile"
-  else
-    EchoInfo "Compiling $CppFile"
-    g++ "$CppFile" -std=c++17 -o "$ExecFile" -I "scripts/cpp/polygon/cpp-include-path"
-    if [ $? -ne 0 ]; then
-      EchoError "Compilation error :("
-      exit 1
-    fi
-    cp "$CppFile" "$CacheFile"
-  fi
-}
-
 CompileValidator() {
   ValidatorSourceFile="workspace/$Problem/polygon/validator.cpp"
   ValidatorExecFile="build/polygon/validator"
-  ValidatorCacheFile="build/polygon/validator.cache.cpp"
+  ValidatorCacheFile="build/polygon/validator.cpp.last_compiled"
 
-  CompileWithCache "$ValidatorSourceFile" "$ValidatorExecFile" "$ValidatorCacheFile"
+  ./scripts/sh/compile-cpp.sh "$ValidatorSourceFile" "$ValidatorExecFile" "$ValidatorCacheFile"
 }
 
 RunValidatorOnCase() {
@@ -89,8 +72,8 @@ CompileGenerator() {
 
   GeneratorSourceFile="workspace/$Problem/polygon/$GeneratorFileName.cpp"
   GeneratorExecFile="build/polygon/generator"
-  GeneratorCacheFile="build/polygon/generator.cache.cpp"
-  CompileWithCache "$GeneratorSourceFile" "$GeneratorExecFile" "$GeneratorCacheFile"
+  GeneratorCacheFile="build/polygon/generator.cpp.last_compiled"
+  ./scripts/sh/compile-cpp.sh "$GeneratorSourceFile" "$GeneratorExecFile" "$GeneratorCacheFile"
 }
 
 case "$1" in

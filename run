@@ -11,7 +11,6 @@ Debug="false"
 RunAllTests="false"
 Lang="go"
 
-
 # Read default values for Problem and CaseId from settings file
 if [ -f "$ConfigFile" ]; then
   eval "$(cat $ConfigFile)"
@@ -132,23 +131,34 @@ echo "CaseId=0" >> "$ConfigFile"
 
 SolutionFile="workspace/$Problem/main.$Lang"
 
+CheckerFile="workspace/$Problem/polygon/checker.cpp"
+if [ -f "$CheckerFile" ]; then
+  EchoInfo "Found checker file: $CheckerFile"
+  CheckerCacheFile="build/polygon/checker.cpp.last_compiled"
+  CheckerExecFile="build/polygon/checker"
+  ./scripts/sh/compile-cpp.sh "$CheckerFile" "$CheckerExecFile" "$CheckerCacheFile"
+  CheckerFile="$CheckerExecFile"
+else
+  CheckerFile=""
+fi
+
 if [ "$Lang" = "cpp" ]; then
-  if cmp --silent -- "$SolutionFile" "build/main.cache.cpp"; then
+  if cmp --silent -- "$SolutionFile" "build/main.cpp.last_compiled"; then
     EchoInfo "No changes on $SolutionFile"
     SolutionFile="build/solution"
   else
     EchoInfo "Compiling cpp file: $SolutionFile"
-    g++ "$SolutionFile" -o "build/solution" -std=c++20 -Wall -Wextra -O2 -Wshadow -pedantic -Wformat=2 -Wfloat-equal -Wconversion -Wcast-qual -Wcast-align -D_GLIBCXX_DEBUG -D_GLIBCXX_DEBUG_PEDANTIC  -fsanitize=address -fno-sanitize-recover -fstack-protector
+    g++ "$SolutionFile" -o "build/solution" -std=c++20 -Wall -Wextra -O2 -Wshadow -pedantic -Wformat=2 -Wfloat-equal -Wcast-qual -Wcast-align -D_GLIBCXX_DEBUG -D_GLIBCXX_DEBUG_PEDANTIC  -fsanitize=address -fno-sanitize-recover -fstack-protector
     if [ $? -ne 0 ]; then
       EchoError "Compilation Error"
       exit 1
     fi
-    cp "$SolutionFile" "build/main.cache.cpp"
+    cp "$SolutionFile" "build/main.cpp.last_compiled"
     SolutionFile="build/solution"
   fi
 fi
 
-if ! test -f "$SolutionFile"; then
+if [ ! -f "$SolutionFile" ]; then
   EchoError "Solution file not found ($SolutionFile)"
   exit 0
 fi
@@ -178,11 +188,21 @@ RunTestCase() {
   RunSolution <"$InputFile" | cat > "$OutputFile"
 
   EchoInfoNoEndl " -> Case $CaseId: "
-  if test -f "$ExpectedOutputFile"; then
-    if cmp --silent -- "$OutputFile" "$ExpectedOutputFile"; then
-      EchoGreen "Correct! :D"
+  if [ -f "$ExpectedOutputFile" ]; then
+    if [ -f "$CheckerFile" ]; then
+      if ./"$CheckerFile" "$InputFile" "$OutputFile" "$ExpectedOutputFile"; then
+        CorrectCount=$((CorrectCount+1))
+      else
+        IncorrectCount=$((IncorrectCount+1))
+      fi
     else
-      EchoRed "Wrong :("
+      if cmp --silent -- "$OutputFile" "$ExpectedOutputFile"; then
+        EchoGreen "Correct! :D"
+        CorrectCount=$((CorrectCount+1))
+      else
+        EchoRed "Wrong :("
+        IncorrectCount=$((IncorrectCount+1))
+      fi
     fi
   else
     EchoInfo "No answer file."
@@ -201,9 +221,16 @@ elif [ "$RunAllTests" = "false" ]; then
 else
   EchoInfo "Testing problem $Problem against all test cases..."
   CaseId=0
+  CorrectCount=0
+  InorrectCount=0
   while [ -f "workspace/$Problem/cases/$CaseId.in" ];
   do
     RunTestCase
     CaseId=$((CaseId+1))
   done
+
+  EchoGreen "Total correct: $CorrectCount"
+  if [ $IncorrectCount -gt 0 ]; then
+    EchoRed "Total incorrect: $IncorrectCount"
+  fi
 fi

@@ -9,7 +9,7 @@ if [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
   exit 0
 fi
 
-if ! test -f "$ConfigFile"; then
+if [ ! -f "$ConfigFile" ]; then
   EchoError "./config file not found"
   exit 1
 fi
@@ -22,8 +22,7 @@ if [ -z "$Problem" ]; then
 fi
 
 CaseId=0
-while test -f "workspace/$Problem/cases/$CaseId.in"
-do
+while [ -f "workspace/$Problem/cases/$CaseId.in" ]; do
   CaseId=$((CaseId+1))
 done
 
