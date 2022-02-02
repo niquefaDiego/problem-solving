@@ -1,6 +1,6 @@
 #!/bin/sh
 
-source "scripts/sh/color.sh"
+. "scripts/sh/color.sh"
 
 ConfigFile=config
 

@@ -1,6 +1,6 @@
 #!/bin/sh
 
-source scripts/sh/color.sh
+. scripts/sh/color.sh
 
 # ----- DEFINE, READ AND SAVE VARIABLES -----
 
@@ -102,7 +102,12 @@ while [ $# -gt 0 ]; do
       fi
       ;;
   esac
-done  
+done
+
+if [ -f "workspace/$Problem/config" ]; then
+  EchoInfo "Reading problem specific config from workspace/$Problem/config"
+  eval "$(cat workspace/$Problem/config)"
+fi
 
 if [ -z "$Problem" ]; then
   ./scripts/sh/docs/show-run-problem-required.sh

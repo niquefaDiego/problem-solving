@@ -1,6 +1,6 @@
 #!/bin/sh
 
-source scripts/sh/color.sh
+. scripts/sh/color.sh
 
 echo ""
 echo "Tools for problem setting using polygon: https://polygon.codeforces.com."
