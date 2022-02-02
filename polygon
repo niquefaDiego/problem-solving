@@ -33,8 +33,6 @@ if [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
 fi
 
 CompileWithCache() {
-  # TODO: Make compilation work without testlib.h maybe?
-
   CppFile="$1"
   ExecFile="$2"
   CacheFile="$3"
@@ -98,6 +96,11 @@ CompileGenerator() {
 case "$1" in
   validator|v)
     shift
+    if [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
+      ./scripts/sh/docs/show-polygon-validator-manual.sh
+      exit 0
+    fi
+
     CompileValidator
     InvalidInputCount=0
     ValidInputCount=0
@@ -113,10 +116,14 @@ case "$1" in
     if [ -z "$1" ]; then
       EchoError "Generator name is required. ${SeeManual}"
       exit 1
+    elif [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
+      ./scripts/sh/docs/show-polygon-generator-manual.sh
+      exit 0
+    else
+      CompileGenerator $1
+      shift
+      ./"$GeneratorExecFile" "$@"
     fi
-    CompileGenerator $1
-    shift
-    ./"$GeneratorExecFile" "$@"
     ;;
 
   *)
