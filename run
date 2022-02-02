@@ -129,7 +129,7 @@ SolutionFile="workspace/$Problem/main.$Lang"
 
 if [ "$Lang" = "cpp" ]; then
   if cmp --silent -- "$SolutionFile" "build/last_compiled.txt"; then
-    EchoInfo "No changes on $SolutionFile. Re using compiled binary..."
+    EchoInfo "No changes on $SolutionFile"
     SolutionFile="build/solution"
   else
     EchoInfo "Compiling cpp file: $SolutionFile"

@@ -27,6 +27,6 @@ do
   CaseId=$((CaseId+1))
 done
 
-EchoInfo "Adding case $CaseId..."
+EchoInfo "Adding case $CaseId"
 code "workspace/$Problem/cases/$CaseId.out"
 code "workspace/$Problem/cases/$CaseId.in"

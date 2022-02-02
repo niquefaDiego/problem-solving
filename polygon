@@ -37,9 +37,9 @@ CompileWithCache() {
   ExecFile="$2"
   CacheFile="$3"
   if cmp --silent "$CppFile" "$CacheFile"; then
-    EchoInfo "No changes in $CppFile. Re using existing binary..."
+    EchoInfo "No changes in $CppFile"
   else
-    EchoInfo "Compiling $CppFile..."
+    EchoInfo "Compiling $CppFile"
     g++ "$CppFile" -std=c++17 -o "$ExecFile" -I "scripts/cpp/polygon/cpp-include-path"
     if [ $? -ne 0 ]; then
       EchoError "Compilation error :("
@@ -68,7 +68,7 @@ RunValidatorOnCase() {
 }
 
 RunValidatorOnAllCases() {
-  EchoInfo "Running validator on all cases...\n"
+  EchoInfo "Running validator on all cases\n"
   CaseId=0
   while [ -f "workspace/$Problem/cases/$CaseId.in" ];
   do
