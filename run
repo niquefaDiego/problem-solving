@@ -105,7 +105,7 @@ done
 
 if [ -f "workspace/$Problem/config" ]; then
   EchoInfo "Reading problem specific config from workspace/$Problem/config"
-  eval "$(cat workspace/$Problem/config)"
+  eval "$(cat "workspace/$Problem/config")"
 fi
 
 if [ -z "$Problem" ]; then
@@ -222,7 +222,7 @@ else
   EchoInfo "Testing problem $Problem against all test cases..."
   CaseId=0
   CorrectCount=0
-  InorrectCount=0
+  IncorrectCount=0
   while [ -f "workspace/$Problem/cases/$CaseId.in" ];
   do
     RunTestCase
