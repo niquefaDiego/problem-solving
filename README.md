@@ -80,6 +80,7 @@ You can see the manual for any script by running them with the `-h` or `--help` 
 |- run
 |- .vscode/
 |  |- snippets.code-snippets
+|  |- c_cpp_properties.json
 |- scripts/
 |- notebook/
 |  |- go/
@@ -102,14 +103,15 @@ You can see the manual for any script by running them with the `-h` or `--help` 
 
 File/folder description:
 - `./add_case`: Create input and output files for a new test case for the current problem.
-- `./config`: File containing the current values for `${Lang}`, `${Problem}` and `${CaseId}`.
+- `./config`: File containing the current values for `${Lang}`, `${Problem}` and `${CaseId}` variables.
 - `./create`: Creates a new folder in `workspace/` for a new problem and sets the `${Problem}` variable.
 - `./run`: Runs one or all test cases for the current problem.
 - `./open`: Opens the given test case for the current problem.
-- `./polygon`: Runs the polygon validators or generators for the current problem.
+- `./polygon`: Runs a polygon validator or generator for the current problem.
 - `./scripts/`: Contains helper scripts used by the main scripts in the root folder.
 - `./notebook/`: Folder with tested implementations of algorithms, data structures or utilities to be copy pasted when needed.
 - `./.vscode/snippets.code-snippets`: Handy (VSCode snippets)[https://code.visualstudio.com/docs/editor/userdefinedsnippets] for faster problem solving.
+- `./.vscode/c_cpp_properties.json`: Updates the VSCode "include path" for C++, so that C++ programns can include [testlib.h](scripts/cpp/polygon/cpp-include-path).
 - `./notebook/go/template.go`: Default code for `./workspace/${Problem}/main.go` when `./create --l go ${Problem}` is called.
 - `./notebook/go/template.cpp`: Default code for `./workspace/${Problem}/main.cpp` when `./create -l cpp ${Problem}` is called.
 - `./workspace/${Problem}/`: Folder with the source code and test cases for problem `${Problem}`, it is created by `./create ${Problem}`

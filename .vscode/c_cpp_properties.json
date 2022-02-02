@@ -3,7 +3,7 @@
     {
       "name": "Default",
       "includePath": [
-        "${workspaceFolder}/scripts/cpp/polygon/cpp-compiler-path"
+        "${workspaceFolder}/scripts/cpp/polygon/cpp-include-path"
       ]
     }
   ],
