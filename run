@@ -81,8 +81,7 @@ while [ $# -gt 0 ]; do
 
     # Show manual
     -h|--help)
-      SetInfoColor
-      cat scripts/docs/run-manual.txt
+      ./scripts/sh/docs/show-run-manual.sh
       exit 0
       ;;
 
