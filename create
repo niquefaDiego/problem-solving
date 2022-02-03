@@ -68,6 +68,10 @@ if [ "$Polygon" = "true" ]; then
   cp "scripts/cpp/polygon/templates/validator.cpp" "workspace/$Problem/polygon"
   cp "scripts/cpp/polygon/templates/checker.cpp" "workspace/$Problem/polygon"
   cp "scripts/cpp/polygon/templates/generator.cpp" "workspace/$Problem/polygon/gen-random.cpp"
+  EchoInfo "Created files:"
+  EchoInfo " -> workspace/$Problem/polygon/validator.cpp"
+  EchoInfo " -> workspace/$Problem/polygon/checker.cpp"
+  EchoInfo " -> workspace/$Problem/polygon/gen-random.cpp"
   echo "4 11" > "workspace/$Problem/cases/0.in"
   echo "15" > "workspace/$Problem/cases/0.out"
 else
