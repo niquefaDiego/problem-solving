@@ -5,6 +5,10 @@
 CppFile="$1"
 ExecFile="$2"
 CacheFile="$3"
+ExecFolder=$(dirname "$ExecFile")
+
+mkdir -p "$ExecFolder"
+
 if cmp --silent "$CppFile" "$CacheFile"; then
   EchoInfo "No changes in $CppFile"
 else
