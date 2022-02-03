@@ -7,7 +7,3 @@ workspace/*
 
 # build folder
 build/*
-!build/.gitkeep
-!build/polygon
-build/polygon/*
-!build/polygon/gitkeep
