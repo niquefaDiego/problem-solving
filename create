@@ -68,7 +68,7 @@ if [ "$Polygon" = "true" ]; then
   cp "scripts/cpp/polygon/templates/validator.cpp" "workspace/$Problem/polygon"
   cp "scripts/cpp/polygon/templates/checker.cpp" "workspace/$Problem/polygon"
   cp "scripts/cpp/polygon/templates/generator.cpp" "workspace/$Problem/polygon/gen-random.cpp"
-  EchoInfo "Created files:"
+  EchoInfo "Created files for polygon:"
   EchoInfo " -> workspace/$Problem/polygon/validator.cpp"
   EchoInfo " -> workspace/$Problem/polygon/checker.cpp"
   EchoInfo " -> workspace/$Problem/polygon/gen-random.cpp"
@@ -80,10 +80,21 @@ else
   touch "workspace/$Problem/cases/0.out"
 fi
 
-code "workspace/$Problem/main.$Lang"
-code "workspace/$Problem/cases/0.in"
-code "workspace/$Problem/cases/0.out"
-
 echo "Lang=$Lang" > "$ConfigFile"
 echo "Problem=$Problem" >> "$ConfigFile"
 echo "CaseId=0" >> "$ConfigFile"
+
+EchoInfo "Created files:"
+EchoInfo " -> workspace/$Problem/main.$Lang"
+EchoInfo " -> workspace/$Problem/cases/0.in"
+EchoInfo " -> workspace/$Problem/cases/0.out"
+
+if ! command -v "code" > /dev/null 2>&1
+then
+  ./scripts/sh/docs/show-error-code-not-found.sh
+  exit 1
+else
+  code "workspace/$Problem/main.$Lang"
+  code "workspace/$Problem/cases/0.in"
+  code "workspace/$Problem/cases/0.out"
+fi

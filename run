@@ -186,7 +186,13 @@ RunTestCase() {
     rm "$OutputFile"
   fi
 
-  RunSolution <"$InputFile" | cat > "$OutputFile"
+  if [ "$Debug" = "true" ]; then
+    EchoInfo "----- START -----"
+    RunSolution <"$InputFile" | tee "$OutputFile"
+    EchoInfo "------ END ------"
+  else
+    RunSolution <"$InputFile" | cat > "$OutputFile"
+  fi
 
   EchoInfoNoEndl " -> Case $CaseId: "
   if [ -f "$ExpectedOutputFile" ]; then
@@ -210,15 +216,9 @@ RunTestCase() {
   fi
 }
 
-if [ "$Debug" = "true" ]; then
-  InputFile=workspace/$Problem/cases/$CaseId.in
-  time RunSolution < "$InputFile"
-elif [ "$RunAllTests" = "false" ]; then
+if [ "$RunAllTests" = "false" ]; then
   EchoInfo "Testing problem $Problem against test case $CaseId."
   RunTestCase
-  EchoInfo "----- OUTPUT START -----"
-  cat "workspace/$Problem/cases/$CaseId.txt"
-  EchoInfo "------ OUTPUT END ------"
 else
   EchoInfo "Testing problem $Problem against all test cases..."
   CaseId=0
