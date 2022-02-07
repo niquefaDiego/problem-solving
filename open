@@ -27,8 +27,15 @@ if [ ! -f "$INPUT_FILE" ]; then
   exit 1
 fi
 
-code $INPUT_FILE
 
-if [ -f "$OUTPUT_FILE" ]; then
-  code $OUTPUT_FILE
+if ! command -v "code" &> /dev/null
+then
+  ./scripts/sh/docs/show-error-code-not-found.sh
+  exit 1
+else
+  code $INPUT_FILE
+
+  if [ -f "$OUTPUT_FILE" ]; then
+    code $OUTPUT_FILE
+  fi
 fi

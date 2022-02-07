@@ -27,5 +27,14 @@ while [ -f "workspace/$Problem/cases/$CaseId.in" ]; do
 done
 
 EchoInfo "Adding case $CaseId"
-code "workspace/$Problem/cases/$CaseId.out"
-code "workspace/$Problem/cases/$CaseId.in"
+EchoInfo " -> workspace/$Problem/cases/$CaseId.in"
+EchoInfo " -> workspace/$Problem/cases/$CaseId.out"
+
+if ! command -v "code" &> /dev/null
+then
+  ./scripts/sh/docs/show-error-code-not-found.sh
+  exit 1
+else
+  code "workspace/$Problem/cases/$CaseId.out"
+  code "workspace/$Problem/cases/$CaseId.in"
+fi
