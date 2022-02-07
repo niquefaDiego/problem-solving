@@ -3,7 +3,7 @@
 . scripts/sh/color.sh
 
 echo ""
-echo "${Bold}Usage: run [Options] [CaseId]${Normal}"
+echo "${Bold}Usage: run [Options...] [CaseId]${Normal}"
 echo ""
 echo "Run the solution for problem ${Bold}Problem${Normal} against one or several test cases."
 echo ""
