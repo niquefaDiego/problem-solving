@@ -103,9 +103,20 @@ case "$1" in
       ./scripts/sh/docs/show-polygon-generator-manual.sh
       exit 0
     else
+      OutputFile=""
+      if [ "$1" = "-c" ] || [ "$1" = "--case" ]; then
+        shift
+        OutputFile="workspace/$Problem/cases/$1.in"
+        shift
+      fi
       CompileGenerator $1
       shift
-      ./"$GeneratorExecFile" "$@"
+      if [ -z "$OutputFile" ]; then
+        ./"$GeneratorExecFile" "$@"
+      else
+        EchoInfo "Saving generated case in: $OutputFile"
+        ./"$GeneratorExecFile" "$@" > "$OutputFile"
+      fi
     fi
     ;;
 
