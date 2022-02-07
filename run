@@ -8,6 +8,7 @@ ConfigFile=config
 Problem=""
 CaseId=""
 Debug="false"
+Interactive="false"
 RunAllTests="false"
 Lang="go"
 
@@ -51,6 +52,10 @@ SetLanguage() {
 
 while [ $# -gt 0 ]; do
   case "$1" in
+    -i|--interactive)
+      shift
+      Interactive="true"
+      ;;
     
     # Problem
     -p|--problem)
@@ -216,7 +221,10 @@ RunTestCase() {
   fi
 }
 
-if [ "$RunAllTests" = "false" ]; then
+if [ "$Interactive" = "true" ]; then
+  EchoInfo "Running in interactive mode..."
+  RunSolution
+elif [ "$RunAllTests" = "false" ]; then
   EchoInfo "Testing problem $Problem against test case $CaseId."
   RunTestCase
 else
