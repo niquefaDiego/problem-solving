@@ -27,8 +27,7 @@ if [ ! -f "$INPUT_FILE" ]; then
   exit 1
 fi
 
-
-if ! command -v "code" &> /dev/null
+if ! command -v "code" > /dev/null 2>&1
 then
   ./scripts/sh/docs/show-error-code-not-found.sh
   exit 1

@@ -30,7 +30,7 @@ EchoInfo "Adding case $CaseId"
 EchoInfo " -> workspace/$Problem/cases/$CaseId.in"
 EchoInfo " -> workspace/$Problem/cases/$CaseId.out"
 
-if ! command -v "code" &> /dev/null
+if ! command -v "code" > /dev/null 2>&1
 then
   ./scripts/sh/docs/show-error-code-not-found.sh
   exit 1
