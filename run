@@ -10,6 +10,7 @@ CaseId=""
 Debug="false"
 Interactive="false"
 RunAllTests="false"
+SolutionFile="main"
 Lang="go"
 
 # Read default values for Problem and CaseId from settings file
@@ -37,6 +38,17 @@ SetCaseId() {
     CaseId="$1"
   fi
   CaseIdGiven="true"
+}
+
+SolutionFileGiven="false"
+SetSolutionFile() {
+  if [ "$SolutionFileGiven" = "true" ]; then
+    EchoError "Solution file given multiple times, but it must be given at most once."
+    exit 1
+  else
+    SolutionFile="$1"
+  fi
+  SolutionFileGiven="true"
 }
 
 LanguageGiven="false"
@@ -95,6 +107,12 @@ while [ $# -gt 0 ]; do
       shift
       ;;
 
+    -s|--solution)
+      shift
+      SetSolutionFile "$1"
+      shift
+      ;;
+
     # Some other argument
     *)
       if [ "$CaseIdGiven" = "false" ]; then
@@ -114,7 +132,7 @@ if [ -f "workspace/$Problem/config" ]; then
 fi
 
 if [ -z "$Problem" ]; then
-  ./scripts/sh/docs/show-run-problem-required.sh
+  ./scripts/sh/docs/show-error-problem-required.sh
   exit 1
 fi
 
@@ -130,11 +148,11 @@ fi
 echo "Lang=$Lang" > "$ConfigFile"
 echo "Problem=$Problem" >> "$ConfigFile"
 echo "CaseId=0" >> "$ConfigFile"
-
+echo "SolutionFile=$SolutionFile" >> "$ConfigFile"
 
 # ----- RUN SOLUTION -----
 
-SolutionFile="workspace/$Problem/main.$Lang"
+SolutionFile="workspace/$Problem/$SolutionFile.$Lang"
 
 CheckerFile="workspace/$Problem/polygon/checker.cpp"
 if [ -f "$CheckerFile" ]; then
