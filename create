@@ -83,6 +83,7 @@ fi
 echo "Lang=$Lang" > "$ConfigFile"
 echo "Problem=$Problem" >> "$ConfigFile"
 echo "CaseId=0" >> "$ConfigFile"
+echo "SolutionFile=main" >> "$ConfigFile"
 
 EchoInfo "Created files:"
 EchoInfo " -> workspace/$Problem/main.$Lang"
