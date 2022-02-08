@@ -145,10 +145,12 @@ if ! echo "$Lang" | grep -Eq "^cpp|go$" ; then
   exit 1
 fi
 
-echo "Lang=$Lang" > "$ConfigFile"
-echo "Problem=$Problem" >> "$ConfigFile"
-echo "CaseId=0" >> "$ConfigFile"
-echo "SolutionFile=$SolutionFile" >> "$ConfigFile"
+{
+  echo "Lang=$Lang"
+  echo "Problem=$Problem"
+  echo "CaseId=0"
+  echo "SolutionFile=$SolutionFile"
+} > "$ConfigFile"
 
 # ----- RUN SOLUTION -----
 
