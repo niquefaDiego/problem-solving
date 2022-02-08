@@ -48,7 +48,7 @@
     ],
   },
   "Go: ScanArr": {
-    "scope": "go", "prefix": "ReadArr",
+    "scope": "go", "prefix": "ScanArr",
     "description": "Reads an array",
     "body": [
       "for i := 0; i < ${1:n}; i++ {",
