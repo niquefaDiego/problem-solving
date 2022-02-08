@@ -21,10 +21,15 @@ if [ -z "$Problem" ]; then
   exit 1
 fi
 
-CaseId=0
-while [ -f "workspace/$Problem/cases/$CaseId.in" ]; do
-  CaseId=$((CaseId+1))
-done
+
+if [ -z "$1" ]; then
+  CaseId=0
+  while [ -f "workspace/$Problem/cases/$CaseId.in" ]; do
+    CaseId=$((CaseId+1))
+  done
+else
+  CaseId="$1"
+fi
 
 EchoInfo "Adding case $CaseId"
 EchoInfo " -> workspace/$Problem/cases/$CaseId.in"
