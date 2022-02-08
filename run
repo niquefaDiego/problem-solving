@@ -156,7 +156,7 @@ SolutionFile="workspace/$Problem/$SolutionFile.$Lang"
 
 CheckerFile="workspace/$Problem/polygon/checker.cpp"
 if [ -f "$CheckerFile" ]; then
-  EchoInfo "Found checker file: $CheckerFile"
+  EchoInfo "Checker file: $CheckerFile"
   CheckerCacheFile="build/polygon/checker.cpp.last_compiled"
   CheckerExecFile="build/polygon/checker"
   ./scripts/sh/compile-cpp.sh "$CheckerFile" "$CheckerExecFile" "$CheckerCacheFile"
@@ -165,9 +165,11 @@ else
   CheckerFile=""
 fi
 
+EchoInfo "Solution file: $SolutionFile"
+
 if [ "$Lang" = "cpp" ]; then
   if cmp --silent -- "$SolutionFile" "build/main.cpp.last_compiled"; then
-    EchoInfo "No changes on $SolutionFile"
+    EchoInfo "No changes in $SolutionFile"
     SolutionFile="build/solution"
   else
     EchoInfo "Compiling cpp file: $SolutionFile"
@@ -250,10 +252,11 @@ else
   CaseId=0
   CorrectCount=0
   IncorrectCount=0
-  while [ -f "workspace/$Problem/cases/$CaseId.in" ];
-  do
+
+  for FileIt in "workspace/$Problem/cases/"*".in"; do
+    FileName=$(basename -- "$FileIt") # Get file name, without path
+    CaseId="${FileName%.*}" # Remove extension
     RunTestCase
-    CaseId=$((CaseId+1))
   done
 
   EchoGreen "Total correct: $CorrectCount"
