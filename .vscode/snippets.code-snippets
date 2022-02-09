@@ -84,5 +84,13 @@
       "  return a[:j]",
       "}", "$0",
     ]
+  },
+  "Go: PushBack": {
+    "scope": "go", "prefix": "PushBack",
+    "description": "Appends an element to a Slice",
+    "body": [
+      "$1 = append($1, $2)",
+      "$0"
+    ]
   }
 }
