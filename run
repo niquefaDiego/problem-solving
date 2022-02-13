@@ -32,7 +32,7 @@ SetProblem() {
 CaseIdGiven="false"
 SetCaseId() {
   if [ "$CaseIdGiven" = "true" ]; then
-    EchoError "Problem given multiple times, but it must be given at most once."
+    EchoError "CaseId given multiple times, but it must be given at most once."
     exit 1
   else
     CaseId="$1"
