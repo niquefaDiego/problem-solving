@@ -7,3 +7,6 @@ workspace/*
 
 # build folder
 build/*
+
+# tmp folder
+tmp/*

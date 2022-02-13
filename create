@@ -6,8 +6,18 @@ Lang="cpp"
 Problem=""
 ConfigFile=config
 Polygon="false"
-
+ScrapTests="false"
 LanguageGiven="false"
+NCreatedCases=1
+ProblemUrl=""
+
+GetProblemHtml() {
+  EchoInfo "Getting tests from -> $1"
+  wget "$1" -O tmp/problem.html 
+  ProblemUrl="$1"
+  ScrapTests="true"
+}
+
 SetLanguage() {
   if [ "$LanguageGiven" = "true" ]; then
     EchoError "Language given multiple times, but it must be given at most once."
@@ -18,7 +28,21 @@ SetLanguage() {
   LanguageGiven="true"
 }
 
+createCaseFiles(){
+  touch "workspace/$Problem/cases/0.in"
+  touch "workspace/$Problem/cases/0.out"
+  NcreatedCases=1
+}
 
+scrapCases() {
+  NCreatedCases=$(python3 scripts/python/extract_cases.py workspace/$Problem/cases/)
+  if [ "$NCreatedCases" = "-1" ]; then
+    EchoRed "Could not get cases from $ProblemUrl"
+    createCaseFiles
+  else
+    EchoGreen "Found $NCreatedCases cases in $ProblemUrl"
+  fi
+}
 while [ $# -gt 0 ]; do
   case "$1" in
     -h|--help)
@@ -36,7 +60,11 @@ while [ $# -gt 0 ]; do
       shift
       Polygon="true"
       ;;
-
+    -u|--url)
+      shift
+      GetProblemHtml "$1"
+      shift
+      ;;
     *)
       if [ -z "$Problem" ]; then
         Problem="$1"
@@ -77,8 +105,11 @@ if [ "$Polygon" = "true" ]; then
   echo "15" > "workspace/$Problem/cases/0.out"
 else
   cp "notebook/$Lang/template.$Lang" "workspace/$Problem/main.$Lang"
-  touch "workspace/$Problem/cases/0.in"
-  touch "workspace/$Problem/cases/0.out"
+  if [ "$ScrapTests" = "true" ]; then
+    scrapCases 
+  else
+    createCaseFiles
+  fi
 fi
 
 {
@@ -90,9 +121,10 @@ fi
 
 EchoInfo "Created files:"
 EchoInfo " -> workspace/$Problem/main.$Lang"
-EchoInfo " -> workspace/$Problem/cases/0.in"
-EchoInfo " -> workspace/$Problem/cases/0.out"
-
+for i in $(seq 1 $NCreatedCases); do 
+  EchoInfo " -> workspace/$Problem/cases/$i.in"
+  EchoInfo " -> workspace/$Problem/cases/$i.out"
+done
 if ! command -v "code" > /dev/null 2>&1
 then
   ./scripts/sh/docs/show-error-code-not-found.sh

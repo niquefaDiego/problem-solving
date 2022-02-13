@@ -8,6 +8,7 @@ Tools for efficient competitive programming in Go and C++ using Visual Studio Co
 - POSIX Shell: `/bin/sh --version`
 - [Optional] Golang for Go problem solving: https://go.dev/
 - [Optional] G++ for C++ problem solving: `$ g++ --version`
+- [Optional] Python
 
 # Quickstart
 
@@ -23,10 +24,13 @@ Create a solution for problem A (folder `./workspace/A`):
 ./create -l go A
 ```
 
+
 This sets the `${Lang}` variable to `"go"` and `${Problem}` variable to to `"A"` in `./config`. The `${Problem}` variable makes the `./run` and `./add_case` commands to work in the `./workspace/A` directory. Also, the script creates and opens in VSCode the files:
 - `./workspace/A/main.go`: For your solution file.
 - `./workspace/A/cases/0.in`: Input file for case `0`.
 - `./workspace/A/cases/0.out`: Expected output for case `0`.
+
+
 
 Save the following in `0.in`:
 ```
@@ -37,6 +41,9 @@ And save the following in `0.out` (add a single newline after the number):
 ```
 22
 ```
+
+__NOTE:__ It is possible to get the example cases directly from _Codeforces_ problem description. See: ___Get cases from Codeforces___ section
+
 
 Replace the contents of `./workspace/A/main.go` with:
 ```
@@ -67,6 +74,8 @@ This will create and open in VSCode the files `workspace/A/cases/1.in` and `work
 ```
 ./run 1
 ```
+
+
 
 ## Scripts
 
@@ -125,6 +134,36 @@ File/folder description:
 - `./workspace/${Problem}/cases/${CaseId}.in`: Input file for case `${CaseId}` of problem `${Problem}`.
 - `./workspace/${Problem}/cases/${CaseId}.txt`: Solution's output for case `${CaseId}` of problem `${Problem}`. This is your solution's output.
 - `./workspace/${Problem}/cases/${CaseId}.out`: Answer file for case `${CaseId}` of problem `${Problem}`. This is the expected output.
+
+## Get cases from Codeforces
+
+For this feature __python__ is required. Please install it and run ` pip install -r requirements.txt`
+
+If you want to automaticaly get the example cases from _Codeforces_ problem description. When creating the solution problem you can add the `-u` or `--url` flag to pass the problem url. Thats all
+
+For example:
+
+```
+	./create F -u https://codeforces.com/contest/1637/problem/F
+```
+
+Will create:
+
+```
+|- workspace/
+|  |- F/
+|  |  |- main.cpp   # Sample solution file
+|  |  |- cases/
+|  |  |  |- 0.in    # Sample input 0 
+|  |  |  |- 0.out   # Sample output 0 
+|  |  |  |- 1.in    # Sample input 1
+|  |  |  |- 1.out   # Sample output 1
+|  |  |  |- 2.in    # Sample input 2
+|  |  |  |- 2.out   # Sample output 2
+|  |  |- polygon/
+|  |  |- |- checker.cpp # Sample checker
+```
+As three cases where found in the given url, three `.in` `.out` files were created. If no cases found in the given url there will be created two empty `0.in` `0.out` files
 
 ## Polygon quickstart
 
