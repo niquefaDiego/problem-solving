@@ -8,7 +8,7 @@ Tools for efficient competitive programming in Go and C++ using Visual Studio Co
 - POSIX Shell: `/bin/sh`
 - [Optional] Golang for Go problem solving: https://go.dev/
 - [Optional] G++ for C++ problem solving: `$ g++ --version`
-- [Optional] Python
+- [Optional] pip and python
 
 # Quickstart
 
