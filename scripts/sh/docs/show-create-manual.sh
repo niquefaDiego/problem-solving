@@ -3,7 +3,7 @@
 . scripts/sh/color.sh
 
 echo
-echo "${Bold}Usage: add_case [Options] Problem${Normal}"
+echo "${Bold}Usage: create [Options] Problem${Normal}"
 echo
 echo "Creates solution folder for problem ${Bold}Problem${Normal} in the programming language"
 echo "${Bold}Lang${Normal}, the created files are:"
@@ -33,4 +33,5 @@ echo "                           \"cpp\""
 echo "  ${Bold}-h${Normal}, ${Bold}--help${Normal}               show this manual, then exit"
 echo "  ${Bold}-p${Normal}, ${Bold}--polygon${Normal}            creates the polygon/ folder with a sample validator"
 echo "                           and generator"
+echo "  ${Bold}-u${Normal}, ${Bold}--url${Normal} arg            codeforces problem url to get tests"
 echo
