@@ -1,6 +1,7 @@
 #include <vector>
 #include <string>
 #include <iostream>
+#include <sstream>
 
 std::vector<std::string> vec_splitter(std::string s) {
 	s += ',';
@@ -22,16 +23,16 @@ void debug_out(
 
 template <typename Head, typename... Tail>
 void debug_out(
-	vector<string> args,
+	std::vector<std::string> args,
 	int idx,
 	int LINE_NUM,
 	Head H,
 	Tail... T
 ) {
-	if(idx > 0) cerr << ", ";
-	else cerr << "Line(" << LINE_NUM << ") ";
-	stringstream ss; ss << H;
-	cerr << args[idx] << " = " << ss.str();
+	if(idx > 0) std::cerr << ", ";
+	else std::cerr << "Line(" << LINE_NUM << ") ";
+	std::stringstream ss; ss << H;
+	std::cerr << args[idx] << " = " << ss.str();
 	debug_out(args, idx + 1, LINE_NUM, T...);
 }
 
