@@ -36,6 +36,11 @@ createCaseFiles(){
 }
 
 scrapCases() {
+  if ! command -v "pyhon3" > /dev/null 2>&1
+  then
+    ./scripts/sh/docs/show-error-python3-not-found.sh
+    exit 1
+  fi
   NCreatedCases=$(python3 scripts/python/extract_cases.py workspace/$Problem/cases/)
   if [ "$NCreatedCases" = "-1" ]; then
     EchoRed "Could not get cases from $ProblemUrl"
