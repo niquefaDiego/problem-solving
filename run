@@ -176,7 +176,7 @@ if [ "$Lang" = "cpp" ]; then
   else
     EchoInfo "Compiling cpp file: $SolutionFile"
     mkdir -p "build"
-    g++ "$SolutionFile" -o "build/solution" -std=c++20 -Wall -Wextra -O2 -Wshadow -pedantic -Wformat=2 -Wfloat-equal -Wcast-qual -Wcast-align -D_GLIBCXX_DEBUG -D_GLIBCXX_DEBUG_PEDANTIC  -fsanitize=address -fno-sanitize-recover -fstack-protector
+    g++ "$SolutionFile" -o "build/solution" -std=c++17 -Wall -Wextra -O2 -Wshadow -pedantic -Wformat=2 -Wfloat-equal -Wcast-qual -Wcast-align -D_GLIBCXX_DEBUG -D_GLIBCXX_DEBUG_PEDANTIC  -fsanitize=address -fno-sanitize-recover -fstack-protector
     if [ $? -ne 0 ]; then
       EchoError "Compilation Error"
       exit 1
