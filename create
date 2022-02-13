@@ -13,6 +13,7 @@ ProblemUrl=""
 
 GetProblemHtml() {
   EchoInfo "Getting tests from -> $1"
+  mkdir -p tmp
   wget "$1" -O tmp/problem.html 
   ProblemUrl="$1"
   ScrapTests="true"
