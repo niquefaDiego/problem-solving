@@ -36,7 +36,7 @@ createCaseFiles(){
 }
 
 scrapCases() {
-  if ! command -v "pyhon3" > /dev/null 2>&1
+  if ! command -v "python3" > /dev/null 2>&1
   then
     ./scripts/sh/docs/show-error-python3-not-found.sh
     exit 1
