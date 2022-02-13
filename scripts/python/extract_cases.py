@@ -10,7 +10,7 @@ def write_file(path_file, content):
 def get_text(soup_obj):
     return soup_obj.getText().strip()
 
-def myQuit():
+def my_quit():
     print(-1)
     quit()
 
@@ -18,7 +18,7 @@ if ( len(sys.argv) > 1):
     path = sys.argv[1]
 else:
     print("ERROR! No path given") 
-    myQuit()
+    my_quit()
 
 cwd = os.getcwd()
 cases_path = "/".join([cwd, path])
