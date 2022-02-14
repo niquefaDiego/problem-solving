@@ -6,7 +6,7 @@ workspace/*
 !workspace/.gitkeep
 
 # build folder
-build/*
+build/
 
 # tmp folder
-tmp/*
+tmp/
