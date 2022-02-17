@@ -52,12 +52,13 @@ RunValidatorOnCase() {
 
 RunValidatorOnAllCases() {
   EchoInfo "Running validator on all cases\n"
-  CaseId=0
-  while [ -f "workspace/$Problem/cases/$CaseId.in" ];
-  do
-    RunValidatorOnCase $CaseId
-    CaseId=$((CaseId+1))
+
+  for FileIt in "workspace/$Problem/cases/"*".in"; do
+    FileName=$(basename -- "$FileIt") # Get file name, without path
+    CaseId="${FileName%.*}" # Remove extension
+    RunValidatorOnCase "$CaseId"
   done
+
   EchoInfo "Valid cases: $ValidInputCount"
   if [ $InvalidInputCount -gt 0 ]; then
     EchoError "Found $InvalidInputCount invalid cases"
