@@ -84,7 +84,9 @@ case "$1" in
       exit 0
     fi
 
-    CompileValidator
+    if ! CompileValidator ; then
+      exit 1
+    fi
     InvalidInputCount=0
     ValidInputCount=0
     if [ -z "$1" ]; then
