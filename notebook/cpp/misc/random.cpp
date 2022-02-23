@@ -8,7 +8,7 @@ inline int fastrand() {
 
 template<class T>
 void premutateRandom(vector<T>& v) {
-  for (int i = 1; i < v.size(); i++) {
+  for (int i = 1; i < int(v.size()); i++) {
     swap(v[i], v[fastrand()%i]);
   }
 }
