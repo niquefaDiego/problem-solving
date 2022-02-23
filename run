@@ -239,7 +239,7 @@ RunTestCase() {
       fi
     fi
   else
-    EchoInfo "No answer file."
+    EchoInfo "No answer file: $ExpectedOutputFile"
   fi
 }
 
