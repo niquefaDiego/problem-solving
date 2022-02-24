@@ -18,7 +18,7 @@ else
 
   cp "$CppFile" "$CacheFile"
   EchoInfo "Compiling $CppFile"
-  g++ "$CppFile" -std=c++17 -o "$ExecFile" -I "scripts/cpp/polygon/cpp-include-path"
+  g++ "$CppFile" -O2 -std=c++17 -o "$ExecFile" -I "scripts/cpp/polygon/cpp-include-path"
   if [ $? -ne 0 ]; then
     EchoError "Compilation error :("
     exit 1
