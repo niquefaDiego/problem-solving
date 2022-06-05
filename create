@@ -83,10 +83,16 @@ while [ $# -gt 0 ]; do
   esac
 done
 
-if ! echo "$Lang" | grep -Eq "^cpp|go$" ; then
+if ! echo "$Lang" | grep -Eq "^cpp|go|python$" ; then
   EchoError "Invalid language $Lang"
   exit 1
 fi
+
+LangExtension="$Lang"
+if [ "$Lang" = "python" ]; then
+  LangExtension="py"
+fi
+
 
 if [ -d "workspace/$Problem" ]
 then
@@ -110,7 +116,7 @@ if [ "$Polygon" = "true" ]; then
   echo "4 11" > "workspace/$Problem/cases/0.in"
   echo "15" > "workspace/$Problem/cases/0.out"
 else
-  cp "notebook/$Lang/template.$Lang" "workspace/$Problem/main.$Lang"
+  cp "notebook/$Lang/template.$LangExtension" "workspace/$Problem/main.$LangExtension"
   if [ "$ScrapTests" = "true" ]; then
     scrapCases 
   else
@@ -126,7 +132,7 @@ fi
 } > "$ConfigFile"
 
 EchoInfo "Created files:"
-EchoInfo " -> workspace/$Problem/main.$Lang"
+EchoInfo " -> workspace/$Problem/main.$LangExtension"
 for i in $(seq 1 $NCreatedCases); do 
   EchoInfo " -> workspace/$Problem/cases/$i.in"
   EchoInfo " -> workspace/$Problem/cases/$i.out"
@@ -136,7 +142,7 @@ then
   ./scripts/sh/docs/show-error-code-not-found.sh
   exit 1
 else
-  code "workspace/$Problem/main.$Lang"
+  code "workspace/$Problem/main.$LangExtension"
   code "workspace/$Problem/cases/0.in"
   code "workspace/$Problem/cases/0.out"
 fi

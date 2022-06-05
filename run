@@ -11,7 +11,7 @@ Debug="false"
 Interactive="false"
 RunAllTests="false"
 SolutionFile="main"
-Lang="go"
+Lang="cpp"
 
 # Read default values for Problem and CaseId from settings file
 if [ -f "$ConfigFile" ]; then
@@ -140,9 +140,14 @@ if [ -z "$CaseId" ]; then
   CaseId="0"
 fi
 
-if ! echo "$Lang" | grep -Eq "^cpp|go$" ; then
+if ! echo "$Lang" | grep -Eq "^cpp|go|python$" ; then
   EchoError "Invalid language $Lang"
   exit 1
+fi
+
+LangExtension="$Lang"
+if [ "$Lang" = "python" ]; then
+  LangExtension="py"
 fi
 
 {
@@ -154,7 +159,7 @@ fi
 
 # ----- RUN SOLUTION -----
 
-SolutionFile="workspace/$Problem/$SolutionFile.$Lang"
+SolutionFile="workspace/$Problem/$SolutionFile.$LangExtension"
 
 CheckerFile="workspace/$Problem/polygon/checker.cpp"
 if [ -f "$CheckerFile" ]; then
@@ -194,6 +199,8 @@ fi
 RunSolution() {
   if [ "$Lang" = "go" ]; then
     go run "$SolutionFile"
+  elif [ "$Lang" = "python" ]; then
+    python "$SolutionFile"
   else
     ./$SolutionFile
   fi
