@@ -64,7 +64,7 @@ Now run your solution for problem `A` with case `0`:
 ./run 0
 ```
 
-You do not need to specify the problem since the `${Problem}` variable is already set in `./config` from the previus `./create A` call.
+You do not need to specify the problem since the `${Problem}` variable is already set in `./config` from the previous `./create A` call.
 
 To add a new test case for problem A run:
 ```
