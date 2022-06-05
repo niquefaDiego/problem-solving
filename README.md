@@ -1,6 +1,6 @@
 # What is this?
 
-Tools for efficient competitive programming in Go and C++ using Visual Studio Code.
+Tools for efficient competitive programming in C++, Golang, Java or Python using Visual Studio Code.
 
 # Dependencies
 
@@ -9,6 +9,7 @@ Tools for efficient competitive programming in Go and C++ using Visual Studio Co
 - [Optional] Golang for Go problem solving: https://go.dev/
 - [Optional] G++ for C++ problem solving: `$ g++ --version`
 - [Optional] pip and python
+- [Optional] Java
 
 # Quickstart
 

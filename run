@@ -140,7 +140,7 @@ if [ -z "$CaseId" ]; then
   CaseId="0"
 fi
 
-if ! echo "$Lang" | grep -Eq "^cpp|go|python$" ; then
+if ! echo "$Lang" | grep -Eq "^cpp|go|java|python$" ; then
   EchoError "Invalid language $Lang"
   exit 1
 fi
@@ -189,11 +189,31 @@ if [ "$Lang" = "cpp" ]; then
     cp "$SolutionFile" "build/main.cpp.last_compiled"
     SolutionFile="build/solution"
   fi
-fi
 
-if [ ! -f "$SolutionFile" ]; then
-  EchoError "Solution file not found ($SolutionFile)"
-  exit 0
+  if [ ! -f "$SolutionFile" ]; then
+    EchoError "Solution file not found ($SolutionFile)"
+    exit 0
+  fi
+elif [ "$Lang" = "java" ]; then
+  if cmp --silent -- "$SolutionFile" "build/main.java.last_compiled"; then
+    EchoInfo "No changes in $SolutionFile"
+    SolutionFile="build/solution"
+  else
+    EchoInfo "Compiling java file: $SolutionFile"
+    mkdir -p "build"
+    javac "$SolutionFile" -d "build/"
+    if [ $? -ne 0 ]; then
+      EchoError "Compilation Error"
+      exit 1
+    fi
+    cp "$SolutionFile" "build/main.java.last_compiled"
+    SolutionFile="build/main"
+  fi
+else
+  if [ ! -f "$SolutionFile" ]; then
+    EchoError "Solution file not found ($SolutionFile)"
+    exit 0
+  fi
 fi
 
 RunSolution() {
@@ -201,6 +221,8 @@ RunSolution() {
     go run "$SolutionFile"
   elif [ "$Lang" = "python" ]; then
     python "$SolutionFile"
+  elif [ "$Lang" = "java" ]; then
+    java -cp "build" "main"
   else
     ./$SolutionFile
   fi
