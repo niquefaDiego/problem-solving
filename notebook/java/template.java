@@ -6,5 +6,6 @@ public class main {
         int ntc = in.nextInt();
         for (int t = 0; t < ntc; t++) {
         }
+        in.close();
     }
 }
