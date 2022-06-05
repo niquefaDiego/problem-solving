@@ -18,7 +18,7 @@ echo "  ${Bold}-s${Normal}, ${Bold}--solution arg${Normal}       set the ${Bold}
 echo "                           default value for ${Bold}SolutionFile${Normal} is \"main\"."
 echo "  ${Bold}-l${Normal}, ${Bold}--lang arg${Normal}           set the ${Bold}Lang${Normal} variable in ./config file, and uses"
 echo "                           solution file for that language. The supported"
-echo "                           languages are \"go\" and \"cpp\""
+echo "                           languages are \"cpp\", \"go\" and \"python\""
 echo "  ${Bold}-h${Normal}, ${Bold}--help${Normal}               show this manual, then exit"
 echo ""
 echo "Variables saved in ./config will be used as default values when not specified"
