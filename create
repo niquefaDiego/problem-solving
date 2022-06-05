@@ -83,7 +83,7 @@ while [ $# -gt 0 ]; do
   esac
 done
 
-if ! echo "$Lang" | grep -Eq "^cpp|go|python$" ; then
+if ! echo "$Lang" | grep -Eq "^cpp|go|java|python$" ; then
   EchoError "Invalid language $Lang"
   exit 1
 fi
