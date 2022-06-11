@@ -31,15 +31,20 @@ else
   CaseId="$1"
 fi
 
-EchoInfo "Adding case $CaseId"
-EchoInfo " -> workspace/$Problem/cases/$CaseId.in"
-EchoInfo " -> workspace/$Problem/cases/$CaseId.out"
+INPUT_FILE="workspace/$Problem/cases/$CaseId.out"
+OUTPUT_FILE="workspace/$Problem/cases/$CaseId.in"
 
-if ! command -v "code" > /dev/null 2>&1
+EchoInfo "Adding case $CaseId"
+EchoInfo " -> $INPUT_FILE"
+EchoInfo " -> $OUTPUT_FILE"
+
+if ! command -v "code2" > /dev/null 2>&1
 then
+  touch "$INPUT_FILE"
+  touch "$OUTPUT_FILE"
   ./scripts/sh/docs/show-error-code-not-found.sh
   exit 1
 else
-  code "workspace/$Problem/cases/$CaseId.out"
-  code "workspace/$Problem/cases/$CaseId.in"
+  code "$INPUT_FILE"
+  code "$OUTPUT_FILE"
 fi
