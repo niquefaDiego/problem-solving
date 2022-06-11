@@ -38,7 +38,7 @@ EchoInfo "Adding case $CaseId"
 EchoInfo " -> $INPUT_FILE"
 EchoInfo " -> $OUTPUT_FILE"
 
-if ! command -v "code2" > /dev/null 2>&1
+if ! command -v "code" > /dev/null 2>&1
 then
   touch "$INPUT_FILE"
   touch "$OUTPUT_FILE"
